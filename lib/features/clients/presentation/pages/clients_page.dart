@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:drift/drift.dart' as drift;
 import '../../../../core/di/injection.dart';
 import '../../../../core/database/database.dart';
-import '../../../../core/theme/glass_decorations.dart';
+import '../../../../core/theme/modern_decorations.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class ClientsPage extends StatefulWidget {

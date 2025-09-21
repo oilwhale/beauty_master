@@ -5,7 +5,7 @@ import 'features/calendar/presentation/pages/calendar_page.dart';
 import 'features/business/presentation/pages/business_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/dashboard/presentation/pages/dashboard_page.dart';
-import 'core/theme/glass_decorations.dart';
+import 'core/theme/modern_decorations.dart';
 import 'core/constants/app_colors.dart';
 
 /// Основная навигация приложения с Bottom Navigation Bar
@@ -116,7 +116,7 @@ class _MainNavigationState extends State<MainNavigation> {
       padding: const EdgeInsets.all(8),
       decoration: isSelected
           ? BoxDecoration(
-              gradient: AppColors.primaryGradient,
+              gradient: AppColors.liquidPrimary,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
