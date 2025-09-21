@@ -117,18 +117,46 @@ class AppDatabase extends _$AppDatabase {
     String? searchQuery,
     int limit = 20,
     int offset = 0,
-  }) {
-    final query = select(clients);
-
-    if (searchQuery != null && searchQuery.isNotEmpty) {
-      query.where(
-          (c) => c.name.contains(searchQuery) | c.phone.contains(searchQuery));
+  }) async {
+    if (searchQuery == null || searchQuery.isEmpty) {
+      final query = select(clients);
+      query.limit(limit, offset: offset);
+      query.orderBy([(c) => OrderingTerm.desc(c.createdAt)]);
+      return query.get();
     }
 
-    query.limit(limit, offset: offset);
-    query.orderBy([(c) => OrderingTerm.desc(c.createdAt)]);
+    // Используем прямой SQL запрос
+    final searchPattern = '%${searchQuery.toLowerCase()}%';
+    final result = await customSelect(
+      '''
+      SELECT * FROM clients
+      WHERE LOWER(name) LIKE ? OR (phone IS NOT NULL AND LOWER(phone) LIKE ?)
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+      ''',
+      variables: [
+        Variable.withString(searchPattern),
+        Variable.withString(searchPattern),
+        Variable.withInt(limit),
+        Variable.withInt(offset),
+      ],
+      readsFrom: {clients},
+    ).get();
 
-    return query.get();
+    return result
+        .map((row) => Client(
+              id: row.read<int>('id'),
+              name: row.read<String>('name'),
+              phone: row.read<String?>('phone'),
+              email: row.read<String?>('email'),
+              birthday: row.read<DateTime?>('birthday'),
+              status: row.read<String>('status'),
+              notes: row.read<String?>('notes'),
+              photoPath: row.read<String?>('photo_path'),
+              createdAt: row.read<DateTime>('created_at'),
+              updatedAt: row.read<DateTime>('updated_at'),
+            ))
+        .toList();
   }
 
   /// Получить клиента по ID

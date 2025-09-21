@@ -33,7 +33,15 @@ Future<void> configureDependencies() async {
       ),
     ),
   );
+
+  // TODO: Регистрация зависимостей для модуля клиентов
+  // _registerClientsDependencies();
 }
+
+/// Регистрация зависимостей модуля клиентов (временно закомментирована)
+// void _registerClientsDependencies() {
+//   // Будет добавлена после создания файлов
+// }
 
 /// Создание настроенного HTTP клиента
 Dio _createDio() {
