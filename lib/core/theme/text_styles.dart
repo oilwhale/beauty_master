@@ -5,8 +5,8 @@ import '../constants/app_colors.dart';
 class AppTextStyles {
   AppTextStyles._();
 
-  // Базовая настройка шрифта
-  static const String _fontFamily = 'Montserrat';
+  // Используем системный шрифт пока
+  static const String? _fontFamily = null;
 
   /// Заголовки
   static const TextStyle heading1 = TextStyle(
