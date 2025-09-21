@@ -108,25 +108,32 @@ lib/
 - [ ] База данных и модели
 - [ ] Главная страница (Dashboard)
 - [ ] CRM система
-- [ ] Календарь
-- [ ] Бизнес модули
-- [ ] Настройки и профиль
+- [ ] Календарь и записи
+- [ ] Бизнес функции
+- [ ] Настройки профиля
+- [ ] Тестирование
+- [ ] Публикация
 
-## 👥 Команда разработки
+## 🤝 Участие в разработке
 
-- **Архитектор/Backend**: Claude AI Assistant
-- **Product Manager**: [@oilwhale](https://github.com/oilwhale)
-- **UI/UX**: Cursor AI Agent
+1. Fork проекта
+2. Создайте feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit изменения (`git commit -m 'Add some AmazingFeature'`)
+4. Push в branch (`git push origin feature/AmazingFeature`)
+5. Откройте Pull Request
 
 ## 📄 Лицензия
 
-Проект разрабатывается для частного использования.
+Этот проект лицензирован под MIT License - см. файл [LICENSE](LICENSE) для деталей.
 
-## 📞 Контакты
+## 📧 Контакты
 
-- **GitHub**: [@oilwhale](https://github.com/oilwhale)
-- **Email**: alexalrodionov@gmail.com
+Ваше имя - [@your_twitter](https://twitter.com/your_twitter) - email@example.com
 
----
+Ссылка на проект: [https://github.com/your_username/beauty_master](https://github.com/your_username/beauty_master)
 
-**Сделано с ❤️ для мастеров красоты**
+## 🙏 Благодарности
+
+- [Flutter](https://flutter.dev/) - за отличный фреймворк
+- [Material Design](https://material.io/) - за дизайн систему
+- [Glassmorphism](https://glassmorphism.com/) - за вдохновение в дизайне
