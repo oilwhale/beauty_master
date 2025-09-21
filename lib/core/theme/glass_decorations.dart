@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_constants.dart';
+import 'package:beauty_master/core/constants/app_colors.dart';
+import 'package:beauty_master/core/constants/app_constants.dart';
 
 /// Декорации для Glassmorphism эффектов
 class GlassDecorations {
@@ -48,7 +48,7 @@ class GlassDecorations {
     borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
     boxShadow: [
       BoxShadow(
-        color: AppColors.primaryMain.withOpacity(0.3),
+        color: AppColors.primaryMain.withValues(alpha: 0.3),
         blurRadius: 12,
         offset: const Offset(0, 4),
       ),
@@ -108,12 +108,15 @@ class GlassDecorations {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        AppColors.primaryMain.withOpacity(0.1),
-        AppColors.secondaryMain.withOpacity(0.1),
+        AppColors.primaryMain.withValues(alpha: 0.1),
+        AppColors.secondaryMain.withValues(alpha: 0.1),
       ],
     ),
     borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-    border: Border.all(color: AppColors.primaryMain.withOpacity(0.3), width: 1),
+    border: Border.all(
+      color: AppColors.primaryMain.withValues(alpha: 0.3),
+      width: 1,
+    ),
   );
 
   /// Glass декорация для input полей
@@ -129,13 +132,13 @@ class GlassDecorations {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        AppColors.primaryMain.withOpacity(0.2),
-        AppColors.primaryLight.withOpacity(0.1),
+        AppColors.primaryMain.withValues(alpha: 0.2),
+        AppColors.primaryLight.withValues(alpha: 0.1),
       ],
     ),
     borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
     border: Border.all(
-      color: AppColors.primaryMain.withOpacity(0.5),
+      color: AppColors.primaryMain.withValues(alpha: 0.5),
       width: 1.5,
     ),
   );
@@ -167,19 +170,19 @@ class GlassDecorations {
   static BoxDecoration glassHover({bool isHovered = false}) {
     return BoxDecoration(
       color: isHovered
-          ? AppColors.glassBackground.withOpacity(0.15)
+          ? AppColors.glassBackground.withValues(alpha: 0.15)
           : AppColors.glassBackground,
       borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
       border: Border.all(
         color: isHovered
-            ? AppColors.primaryMain.withOpacity(0.3)
+            ? AppColors.primaryMain.withValues(alpha: 0.3)
             : AppColors.glassBorder,
         width: isHovered ? 1.5 : 1,
       ),
       boxShadow: isHovered
           ? [
               BoxShadow(
-                color: AppColors.primaryMain.withOpacity(0.1),
+                color: AppColors.primaryMain.withValues(alpha: 0.1),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -191,9 +194,9 @@ class GlassDecorations {
   /// Glass декорация для статусов
   static BoxDecoration glassStatus(Color statusColor) {
     return BoxDecoration(
-      color: statusColor.withOpacity(0.1),
+      color: statusColor.withValues(alpha: 0.1),
       borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-      border: Border.all(color: statusColor.withOpacity(0.3), width: 1),
+      border: Border.all(color: statusColor.withValues(alpha: 0.3), width: 1),
     );
   }
 
@@ -223,7 +226,7 @@ class GlassDecorations {
     border: Border.all(color: const Color(0x33FFFFFF), width: 1),
     boxShadow: [
       BoxShadow(
-        color: Colors.black.withOpacity(0.2),
+        color: Colors.black.withValues(alpha: 0.2),
         blurRadius: 8,
         offset: const Offset(0, 2),
       ),
