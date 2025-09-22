@@ -6,6 +6,7 @@ import '../../../../core/database/database.dart';
 import '../../../../core/theme/modern_decorations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
+import 'client_detail_page.dart';
 
 class ClientsPage extends StatefulWidget {
   const ClientsPage({super.key});
@@ -305,7 +306,7 @@ class _ClientsPageState extends State<ClientsPage>
                     ),
                     child: const Icon(
                       Icons.people_outline_rounded,
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       size: 30,
                     ),
                   ),
@@ -360,37 +361,43 @@ class _ClientsPageState extends State<ClientsPage>
           margin: const EdgeInsets.only(bottom: 16),
           child: Transform.scale(
             scale: delayedScale,
-            child: GestureDetector(
-              onTap: () => _showClientDetails(client),
-              child: Container(
-                decoration: ModernDecorations.organicClientCard,
-                child: Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(24),
-                    topRight: const Radius.circular(8),
-                    bottomLeft: const Radius.circular(8),
-                    bottomRight: const Radius.circular(24),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(24),
-                      topRight: const Radius.circular(8),
-                      bottomLeft: const Radius.circular(8),
-                      bottomRight: const Radius.circular(24),
-                    ),
-                    onTap: () => _showClientDetails(client),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          _buildOrganicAvatar(client),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: _buildClientInfo(client),
+            child: Hero(
+              tag: 'client_${client.id}',
+              child: Material(
+                color: Colors.transparent,
+                child: GestureDetector(
+                  onTap: () => _navigateToClientDetail(client),
+                  child: Container(
+                    decoration: ModernDecorations.organicClientCard,
+                    child: Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(24),
+                        topRight: const Radius.circular(8),
+                        bottomLeft: const Radius.circular(8),
+                        bottomRight: const Radius.circular(24),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(24),
+                          topRight: const Radius.circular(8),
+                          bottomLeft: const Radius.circular(8),
+                          bottomRight: const Radius.circular(24),
+                        ),
+                        onTap: () => _navigateToClientDetail(client),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            children: [
+                              _buildOrganicAvatar(client),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildClientInfo(client),
+                              ),
+                              _buildStatusBadge(client.status),
+                            ],
                           ),
-                          _buildStatusBadge(client.status),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -413,7 +420,7 @@ class _ClientsPageState extends State<ClientsPage>
         child: Text(
           _getInitials(client.name),
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.textPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w700,
           ),
@@ -514,7 +521,7 @@ class _ClientsPageState extends State<ClientsPage>
               ),
               child: const Icon(
                 Icons.people_outline_rounded,
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 size: 40,
               ),
             ),
@@ -577,7 +584,7 @@ class _ClientsPageState extends State<ClientsPage>
                 },
                 child: const Icon(
                   Icons.add_rounded,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                   size: 28,
                 ),
               ),
@@ -598,12 +605,12 @@ class _ClientsPageState extends State<ClientsPage>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
+            Icon(icon, color: AppColors.textPrimary, size: 20),
             const SizedBox(width: 8),
             Text(
               text,
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
@@ -650,7 +657,7 @@ class _ClientsPageState extends State<ClientsPage>
                     ),
                     child: const Icon(
                       Icons.person_add_rounded,
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       size: 24,
                     ),
                   ),
@@ -789,6 +796,21 @@ class _ClientsPageState extends State<ClientsPage>
 
   // ===== ЛОГИКА И УТИЛИТЫ =====
 
+  /// Переход на детальную страницу клиента
+  Future<void> _navigateToClientDetail(Client client) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ClientDetailPage(clientId: client.id),
+      ),
+    );
+
+    // Обновляем список после возвращения с детальной страницы
+    if (result == true || result == null) {
+      _loadClients();
+    }
+  }
+
   /// Создание клиента
   Future<void> _createClient(String name, String phone, String email) async {
     if (name.trim().isEmpty) {
@@ -819,12 +841,6 @@ class _ClientsPageState extends State<ClientsPage>
         _showSnackBar('Ошибка: $e', isError: true);
       }
     }
-  }
-
-  /// Показать детали клиента
-  void _showClientDetails(Client client) {
-    _showSnackBar('Детали клиента: ${client.name}', isError: false);
-    // TODO: Реализовать детальную страницу клиента
   }
 
   /// Показать snackbar с liquid дизайном
