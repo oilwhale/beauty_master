@@ -181,9 +181,6 @@ class AppDatabase extends _$AppDatabase {
 
   /// Получить клиентов с днями рождения в ближайшие дни
   Future<List<Client>> getClientsBirthdaysNext(int days) {
-    final now = DateTime.now();
-    final endDate = now.add(Duration(days: days));
-
     return (select(clients)
           ..where((c) => c.birthday.isNotNull())
           ..orderBy([(c) => OrderingTerm.asc(c.birthday)]))

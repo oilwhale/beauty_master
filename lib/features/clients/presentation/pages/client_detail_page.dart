@@ -32,6 +32,19 @@ class _ClientDetailPageState extends State<ClientDetailPage>
   List<Appointment> _appointments = [];
   Map<String, dynamic> _statistics = {};
   Timer? _autoSaveTimer;
+  bool _showSaveButton = false;
+
+  // Inline editing state
+  bool _isEditingName = false;
+  bool _isEditingPhone = false;
+  bool _isEditingEmail = false;
+  bool _isEditingNotes = false;
+
+  // Text controllers for inline editing
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _notesController;
 
   // Tab Controller
   late TabController _tabController;
@@ -53,7 +66,15 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _initAnimations();
+    _initTextControllers();
     _loadClientData();
+  }
+
+  void _initTextControllers() {
+    _nameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _emailController = TextEditingController();
+    _notesController = TextEditingController();
   }
 
   void _initAnimations() {
@@ -63,7 +84,7 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     );
     _saveAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
-          parent: _saveAnimationController, curve: Curves.bounceOut),
+          parent: _saveAnimationController, curve: Curves.easeInOut),
     );
   }
 
@@ -72,6 +93,10 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     _autoSaveTimer?.cancel();
     _tabController.dispose();
     _saveAnimationController.dispose();
+    _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
@@ -102,6 +127,12 @@ class _ClientDetailPageState extends State<ClientDetailPage>
         _statistics = stats;
         _isLoading = false;
       });
+
+      // Update text controllers with client data
+      _nameController.text = client.name;
+      _phoneController.text = client.phone ?? '';
+      _emailController.text = client.email ?? '';
+      _notesController.text = client.notes ?? '';
     } catch (e) {
       setState(() => _isLoading = false);
       _showErrorSnackBar('Ошибка загрузки данных');
@@ -154,13 +185,15 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     return Scaffold(
       backgroundColor: _backgroundWhite,
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          _buildHeroSection(),
-          _buildTabBar(),
-          Expanded(child: _buildTabContent()),
-          _buildQuickActions(),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeroSection(),
+            _buildTabBar(),
+            Expanded(child: _buildTabContent()),
+            _buildQuickActions(),
+          ],
+        ),
       ),
     );
   }
@@ -178,43 +211,47 @@ class _ClientDetailPageState extends State<ClientDetailPage>
         ),
       ),
       actions: [
-        AnimatedBuilder(
-          animation: _saveAnimation,
-          builder: (context, child) {
-            return Transform.scale(
-              scale: 1.0 + (_saveAnimation.value * 0.1),
-              child: Container(
-                margin: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.green.withOpacity(0.2)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline,
-                      size: 14,
-                      color: Colors.green[600],
+        if (_showSaveButton)
+          AnimatedBuilder(
+            animation: _saveAnimation,
+            builder: (context, child) {
+              return Opacity(
+                opacity: _saveAnimation.value,
+                child: Transform.scale(
+                  scale: 0.8 + (_saveAnimation.value * 0.2),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.green.withOpacity(0.2)),
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Сохранено',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.green[600],
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.check_circle_outline,
+                          size: 14,
+                          color: Colors.green[600],
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Сохранено',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.green[600],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
       ],
     );
   }
@@ -232,10 +269,10 @@ class _ClientDetailPageState extends State<ClientDetailPage>
 
   Widget _buildHeroSection() {
     return Container(
-      height: 180,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Avatar and Name
           Row(
@@ -273,16 +310,16 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     return GestureDetector(
       onTap: _pickImage,
       child: Container(
-        width: 80,
-        height: 80,
+        width: 96,
+        height: 96,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           color: _primaryColor.withOpacity(0.1),
           border: Border.all(color: _primaryColor.withOpacity(0.2), width: 2),
         ),
         child: _client?.photoPath != null
             ? ClipRRect(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(22),
                 child: Image.file(
                   File(_client!.photoPath!),
                   fit: BoxFit.cover,
@@ -292,7 +329,7 @@ class _ClientDetailPageState extends State<ClientDetailPage>
                 child: Text(
                   _getInitials(_client?.name ?? ''),
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 29,
                     fontWeight: FontWeight.w700,
                     color: _primaryColor,
                   ),
@@ -303,8 +340,30 @@ class _ClientDetailPageState extends State<ClientDetailPage>
   }
 
   Widget _buildEditableName() {
+    if (_isEditingName) {
+      return TextField(
+        controller: _nameController,
+        autofocus: true,
+        style: const TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
+          color: _textPrimary,
+        ),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.zero,
+        ),
+        onSubmitted: (value) => _saveName(value),
+        onTapOutside: (_) => _saveName(_nameController.text),
+      );
+    }
+
     return GestureDetector(
-      onDoubleTap: () => _showEditNameDialog(),
+      onTap: () {
+        setState(() {
+          _isEditingName = true;
+        });
+      },
       child: Text(
         _client?.name ?? '',
         style: const TextStyle(
@@ -368,18 +427,26 @@ class _ClientDetailPageState extends State<ClientDetailPage>
             size: 20,
           ),
           const SizedBox(width: 12),
-          Text(
-            'Следующая запись: Не запланирована',
-            style: TextStyle(
-              fontSize: 14,
-              color: _textTertiary,
+          Flexible(
+            child: Text(
+              'След. запись: Не запланирована',
+              style: TextStyle(
+                fontSize: 14,
+                color: _textTertiary,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           TextButton(
             onPressed: () {
               // TODO: Implement schedule appointment
             },
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             child: const Text(
               'Записать',
               style: TextStyle(
@@ -443,57 +510,9 @@ class _ClientDetailPageState extends State<ClientDetailPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildClientStatusCard(),
-          const SizedBox(height: 24),
           _buildKeyMetrics(),
           const SizedBox(height: 24),
           _buildQuickNotes(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildClientStatusCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.green.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.green.withOpacity(0.2)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-              ),
-              const SizedBox(width: 12),
-              const Text(
-                'Активный клиент',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: _textPrimary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Последний визит: ${_statistics['daysSinceLastVisit']} дней назад',
-            style: const TextStyle(
-              fontSize: 14,
-              color: _textSecondary,
-            ),
-          ),
         ],
       ),
     );
@@ -524,9 +543,9 @@ class _ClientDetailPageState extends State<ClientDetailPage>
             const SizedBox(width: 12),
             Expanded(
               child: _buildMetricCard(
-                '${(_statistics['avgCheck'] ?? 0.0).toInt()}₽',
-                'средний чек',
-                Icons.payment_outlined,
+                '${_statistics['daysSinceLastVisit']} дней',
+                'назад',
+                Icons.access_time_outlined,
               ),
             ),
           ],
@@ -544,9 +563,9 @@ class _ClientDetailPageState extends State<ClientDetailPage>
             const SizedBox(width: 12),
             Expanded(
               child: _buildMetricCard(
-                '${_statistics['daysSinceLastVisit']} дней',
-                'назад',
-                Icons.access_time_outlined,
+                '${(_statistics['avgCheck'] ?? 0.0).toInt()}₽',
+                'средний чек',
+                Icons.payment_outlined,
               ),
             ),
           ],
@@ -605,30 +624,62 @@ class _ClientDetailPageState extends State<ClientDetailPage>
           ),
         ),
         const SizedBox(height: 16),
-        GestureDetector(
-          onDoubleTap: () => _showNotesDialog(),
-          child: Container(
+        if (_isEditingNotes)
+          Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: _backgroundWhite,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: _dividerColor),
+              border: Border.all(color: _primaryColor),
             ),
-            child: Text(
-              _client?.notes?.isNotEmpty == true
-                  ? _client!.notes!
-                  : 'Двойной тап для добавления заметки...',
-              style: TextStyle(
+            child: TextField(
+              controller: _notesController,
+              autofocus: true,
+              maxLines: 5,
+              style: const TextStyle(
                 fontSize: 14,
-                color: _client?.notes?.isNotEmpty == true
-                    ? _textSecondary
-                    : _textTertiary,
+                color: _textSecondary,
                 height: 1.5,
+              ),
+              decoration: const InputDecoration(
+                hintText: 'Введите заметки о клиенте...',
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.zero,
+              ),
+              onSubmitted: (value) => _saveNotes(value),
+              onTapOutside: (_) => _saveNotes(_notesController.text),
+            ),
+          )
+        else
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isEditingNotes = true;
+              });
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _backgroundWhite,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: _dividerColor),
+              ),
+              child: Text(
+                _client?.notes?.isNotEmpty == true
+                    ? _client!.notes!
+                    : 'Тап для добавления заметки...',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: _client?.notes?.isNotEmpty == true
+                      ? _textSecondary
+                      : _textTertiary,
+                  height: 1.5,
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -662,43 +713,43 @@ class _ClientDetailPageState extends State<ClientDetailPage>
           ),
         ),
         const SizedBox(height: 16),
-        _buildContactRow(
+        _buildEditableContactRow(
           Icons.phone_outlined,
           'Телефон',
           _client?.phone ?? 'Не указан',
+          _isEditingPhone,
+          _phoneController,
           () => _makeCall(_client?.phone ?? ''),
           () => _sendSMS(_client?.phone ?? ''),
           ['Позвонить', 'SMS'],
+          _savePhone,
         ),
         const SizedBox(height: 12),
-        _buildContactRow(
+        _buildEditableContactRow(
           Icons.email_outlined,
           'Email',
           _client?.email ?? 'Не указан',
+          _isEditingEmail,
+          _emailController,
           () => _sendEmail(_client?.email ?? ''),
           null,
           ['Написать'],
-        ),
-        const SizedBox(height: 12),
-        _buildContactRow(
-          Icons.camera_alt_outlined,
-          'Instagram',
-          '@username',
-          () => _openInstagram('username'),
-          null,
-          ['Открыть'],
+          _saveEmail,
         ),
       ],
     );
   }
 
-  Widget _buildContactRow(
+  Widget _buildEditableContactRow(
     IconData icon,
     String label,
     String value,
+    bool isEditing,
+    TextEditingController controller,
     VoidCallback? onPrimaryAction,
     VoidCallback? onSecondaryAction,
     List<String> actionLabels,
+    Function(String) onSave,
   ) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -723,17 +774,40 @@ class _ClientDetailPageState extends State<ClientDetailPage>
                   ),
                 ),
                 const SizedBox(height: 2),
-                GestureDetector(
-                  onDoubleTap: () => _showEditContactDialog(label, value),
-                  child: Text(
-                    value,
+                if (isEditing)
+                  TextField(
+                    controller: controller,
+                    autofocus: true,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: _textPrimary,
                     ),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    onSubmitted: onSave,
+                    onTapOutside: (_) => onSave(controller.text),
+                  )
+                else
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (label == 'Телефон')
+                          _isEditingPhone = true;
+                        else if (label == 'Email') _isEditingEmail = true;
+                      });
+                    },
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: _textPrimary,
+                      ),
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -1357,39 +1431,47 @@ class _ClientDetailPageState extends State<ClientDetailPage>
 
   Widget _buildQuickActions() {
     return Container(
-      height: 64,
       decoration: const BoxDecoration(
         color: _backgroundWhite,
         border: Border(
           top: BorderSide(color: _dividerColor, width: 1),
         ),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _buildQuickActionButton(
-              Icons.phone_outlined,
-              'Позвонить',
-              () => _makeCall(_client?.phone ?? ''),
-            ),
+      child: SafeArea(
+        child: Container(
+          height: 64,
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildQuickActionButton(
+                  Icons.phone_outlined,
+                  'Позвонить',
+                  () => _makeCall(_client?.phone ?? ''),
+                ),
+              ),
+              Container(width: 1, color: _dividerColor),
+              Expanded(
+                child: _buildQuickActionButton(
+                  Icons.message_outlined,
+                  'SMS',
+                  () => _sendSMS(_client?.phone ?? ''),
+                ),
+              ),
+              Container(width: 1, color: _dividerColor),
+              Expanded(
+                child: _buildQuickActionButton(
+                  Icons.add_circle_outline,
+                  'Новая запись',
+                  () {
+                    // TODO: Implement new appointment functionality
+                    _showSuccessSnackBar(
+                        'Функция создания записи будет реализована');
+                  },
+                ),
+              ),
+            ],
           ),
-          Container(width: 1, color: _dividerColor),
-          Expanded(
-            child: _buildQuickActionButton(
-              Icons.message_outlined,
-              'SMS',
-              () => _sendSMS(_client?.phone ?? ''),
-            ),
-          ),
-          Container(width: 1, color: _dividerColor),
-          Expanded(
-            child: _buildQuickActionButton(
-              Icons.edit_outlined,
-              'Изменить',
-              () => _showEditNameDialog(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -1561,78 +1643,6 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     }
   }
 
-  void _showEditNameDialog() {
-    final controller = TextEditingController(text: _client?.name ?? '');
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: _backgroundWhite,
-        title: const Text(
-          'Изменить имя',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: _textPrimary,
-          ),
-        ),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          style: const TextStyle(
-            fontSize: 16,
-            color: _textPrimary,
-          ),
-          decoration: InputDecoration(
-            hintText: 'Введите имя клиента',
-            hintStyle: TextStyle(color: _textTertiary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: _dividerColor),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: _primaryColor),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Отмена',
-              style: TextStyle(color: _textTertiary),
-            ),
-          ),
-          TextButton(
-            onPressed: () async {
-              if (controller.text.trim().isNotEmpty && _client != null) {
-                final updatedClient = _client!.copyWith(
-                  name: controller.text.trim(),
-                  updatedAt: DateTime.now(),
-                );
-
-                await _database.updateClient(updatedClient);
-                setState(() => _client = updatedClient);
-
-                _showSaveAnimation();
-                HapticFeedback.lightImpact();
-              }
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'Сохранить',
-              style: TextStyle(
-                color: _primaryColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showStatusDialog() {
     final statusOptions = ['new', 'regular', 'vip'];
     final statusNames = ['Новый', 'Постоянный', 'VIP'];
@@ -1764,94 +1774,6 @@ class _ClientDetailPageState extends State<ClientDetailPage>
 
   void _showDetailedNotesDialog() => _showNotesDialog();
 
-  void _showEditContactDialog(String field, String currentValue) {
-    final controller = TextEditingController(text: currentValue);
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: _backgroundWhite,
-        title: Text(
-          'Изменить $field',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: _textPrimary,
-          ),
-        ),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          keyboardType:
-              field == 'Телефон' ? TextInputType.phone : TextInputType.text,
-          style: const TextStyle(
-            fontSize: 16,
-            color: _textPrimary,
-          ),
-          decoration: InputDecoration(
-            hintText: 'Введите $field',
-            hintStyle: TextStyle(color: _textTertiary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: _dividerColor),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: _primaryColor),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Отмена',
-              style: TextStyle(color: _textTertiary),
-            ),
-          ),
-          TextButton(
-            onPressed: () async {
-              if (_client != null) {
-                Client updatedClient;
-
-                switch (field) {
-                  case 'Телефон':
-                    updatedClient = _client!.copyWith(
-                      phone: drift.Value(controller.text.trim()),
-                      updatedAt: DateTime.now(),
-                    );
-                    break;
-                  case 'Email':
-                    updatedClient = _client!.copyWith(
-                      email: drift.Value(controller.text.trim()),
-                      updatedAt: DateTime.now(),
-                    );
-                    break;
-                  default:
-                    return;
-                }
-
-                await _database.updateClient(updatedClient);
-                setState(() => _client = updatedClient);
-
-                _showSaveAnimation();
-                HapticFeedback.lightImpact();
-              }
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'Сохранить',
-              style: TextStyle(
-                color: _primaryColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showDeleteDialog() {
     showDialog(
       context: context,
@@ -1925,14 +1847,6 @@ class _ClientDetailPageState extends State<ClientDetailPage>
     }
   }
 
-  Future<void> _openInstagram(String username) async {
-    if (username.isEmpty) return;
-    final Uri instagramUri = Uri.parse('https://instagram.com/$username');
-    if (await canLaunchUrl(instagramUri)) {
-      await launchUrl(instagramUri);
-    }
-  }
-
   Future<void> _addPhoto() async {
     // TODO: Implement photo adding functionality
     _showSuccessSnackBar('Функция добавления фото будет реализована');
@@ -1944,13 +1858,117 @@ class _ClientDetailPageState extends State<ClientDetailPage>
   }
 
   void _showSaveAnimation() {
+    setState(() {
+      _showSaveButton = true;
+    });
+
     _saveAnimationController.forward().then((_) {
       Future.delayed(const Duration(seconds: 2), () {
         if (mounted) {
-          _saveAnimationController.reverse();
+          _saveAnimationController.reverse().then((_) {
+            if (mounted) {
+              setState(() {
+                _showSaveButton = false;
+              });
+            }
+          });
         }
       });
     });
+  }
+
+  Future<void> _saveName(String value) async {
+    if (value.trim().isNotEmpty && _client != null) {
+      final updatedClient = _client!.copyWith(
+        name: value.trim(),
+        updatedAt: DateTime.now(),
+      );
+
+      await _database.updateClient(updatedClient);
+      setState(() {
+        _client = updatedClient;
+        _isEditingName = false;
+      });
+
+      _showSaveAnimation();
+      HapticFeedback.lightImpact();
+    } else {
+      setState(() {
+        _isEditingName = false;
+      });
+    }
+  }
+
+  Future<void> _savePhone(String value) async {
+    if (_client != null) {
+      final updatedClient = _client!.copyWith(
+        phone: value.trim().isEmpty
+            ? const drift.Value.absent()
+            : drift.Value(value.trim()),
+        updatedAt: DateTime.now(),
+      );
+
+      await _database.updateClient(updatedClient);
+      setState(() {
+        _client = updatedClient;
+        _isEditingPhone = false;
+      });
+
+      _showSaveAnimation();
+      HapticFeedback.lightImpact();
+    } else {
+      setState(() {
+        _isEditingPhone = false;
+      });
+    }
+  }
+
+  Future<void> _saveEmail(String value) async {
+    if (_client != null) {
+      final updatedClient = _client!.copyWith(
+        email: value.trim().isEmpty
+            ? const drift.Value.absent()
+            : drift.Value(value.trim()),
+        updatedAt: DateTime.now(),
+      );
+
+      await _database.updateClient(updatedClient);
+      setState(() {
+        _client = updatedClient;
+        _isEditingEmail = false;
+      });
+
+      _showSaveAnimation();
+      HapticFeedback.lightImpact();
+    } else {
+      setState(() {
+        _isEditingEmail = false;
+      });
+    }
+  }
+
+  Future<void> _saveNotes(String value) async {
+    if (_client != null) {
+      final updatedClient = _client!.copyWith(
+        notes: value.trim().isEmpty
+            ? const drift.Value.absent()
+            : drift.Value(value.trim()),
+        updatedAt: DateTime.now(),
+      );
+
+      await _database.updateClient(updatedClient);
+      setState(() {
+        _client = updatedClient;
+        _isEditingNotes = false;
+      });
+
+      _showSaveAnimation();
+      HapticFeedback.lightImpact();
+    } else {
+      setState(() {
+        _isEditingNotes = false;
+      });
+    }
   }
 
   void _showErrorSnackBar(String message) {

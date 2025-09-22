@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../entities/client_entity.dart';
 
 /// Интерфейс репозитория клиентов

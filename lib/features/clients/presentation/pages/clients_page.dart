@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:drift/drift.dart' as drift;
 import '../../../../core/di/injection.dart';
 import '../../../../core/database/database.dart';
@@ -9,6 +10,8 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import 'client_detail_page.dart';
 
+/// Enterprise Clients Page - Conscious Minimalism Design
+/// Progressive Disclosure + Strategic Glassmorphism + Emotional Intelligence
 class ClientsPage extends StatefulWidget {
   const ClientsPage({super.key});
 
@@ -24,76 +27,110 @@ class _ClientsPageState extends State<ClientsPage>
   String _searchQuery = '';
   Timer? _searchTimer;
 
-  // Анимации для breathing эффектов
-  late AnimationController _breathingController;
-  late AnimationController _searchController;
-  late AnimationController _fabController;
+  // Enterprise Animation Controllers
+  late AnimationController _heroAnimationController;
+  late AnimationController _listAnimationController;
+  late AnimationController _fabAnimationController;
+  late AnimationController _searchAnimationController;
 
-  late Animation<double> _breathingAnimation;
-  late Animation<double> _searchAnimation;
-  late Animation<double> _fabAnimation;
+  // Conscious Animation System
+  late Animation<double> _heroScaleAnimation;
+  late Animation<Offset> _heroSlideAnimation;
+  late Animation<double> _listFadeAnimation;
+  late Animation<double> _fabRotationAnimation;
+  late Animation<double> _searchFocusAnimation;
 
   @override
   void initState() {
     super.initState();
-    _initAnimations();
-    _loadClients();
+    _initializeEnterpriseAnimations();
+    _loadClientsWithIntelligence();
   }
 
-  void _initAnimations() {
-    // Breathing анимация для карточек
-    _breathingController = AnimationController(
-      duration: const Duration(seconds: 3),
+  void _initializeEnterpriseAnimations() {
+    // Hero Section Animations - Emotional Entry
+    _heroAnimationController = AnimationController(
+      duration: AppConstants.animationSlow,
       vsync: this,
     );
-    _breathingAnimation = Tween<double>(
-      begin: 0.95,
-      end: 1.05,
-    ).animate(CurvedAnimation(
-      parent: _breathingController,
-      curve: Curves.easeInOut,
-    ));
-    _breathingController.repeat(reverse: true);
 
-    // Анимация поиска
-    _searchController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+    _heroScaleAnimation = Tween<double>(
+      begin: 0.95,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _heroAnimationController,
+      curve: Curves.easeOutBack,
+    ));
+
+    _heroSlideAnimation = Tween<Offset>(
+      begin: const Offset(0, -0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _heroAnimationController,
+      curve: Curves.easeOutCubic,
+    ));
+
+    // List Animations - Progressive Disclosure
+    _listAnimationController = AnimationController(
+      duration: AppConstants.animationMedium,
       vsync: this,
     );
-    _searchAnimation = Tween<double>(
+
+    _listFadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(CurvedAnimation(
-      parent: _searchController,
+      parent: _listAnimationController,
       curve: Curves.easeOut,
     ));
 
-    // FAB анимация
-    _fabController = AnimationController(
-      duration: const Duration(milliseconds: 200),
+    // FAB Animations - Intelligent Interaction
+    _fabAnimationController = AnimationController(
+      duration: AppConstants.animationFast,
       vsync: this,
     );
-    _fabAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.1,
+
+    _fabRotationAnimation = Tween<double>(
+      begin: 0.0,
+      end: 0.125, // 45 degrees
     ).animate(CurvedAnimation(
-      parent: _fabController,
+      parent: _fabAnimationController,
       curve: Curves.elasticOut,
     ));
+
+    // Search Animations - Focused Attention
+    _searchAnimationController = AnimationController(
+      duration: AppConstants.animationStandard,
+      vsync: this,
+    );
+
+    _searchFocusAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.02,
+    ).animate(CurvedAnimation(
+      parent: _searchAnimationController,
+      curve: Curves.easeInOut,
+    ));
+
+    // Start entrance animations
+    _heroAnimationController.forward();
   }
 
   @override
   void dispose() {
     _searchTimer?.cancel();
-    _breathingController.dispose();
-    _searchController.dispose();
-    _fabController.dispose();
+    _heroAnimationController.dispose();
+    _listAnimationController.dispose();
+    _fabAnimationController.dispose();
+    _searchAnimationController.dispose();
     super.dispose();
   }
 
-  Future<void> _loadClients() async {
+  Future<void> _loadClientsWithIntelligence() async {
     setState(() => _isLoading = true);
+
     try {
+      await Future.delayed(AppConstants.animationFast); // Smooth loading
       final allClients = await _database.getAllClients();
 
       List<Client> filteredClients;
@@ -113,10 +150,13 @@ class _ClientsPageState extends State<ClientsPage>
         _clients = filteredClients;
         _isLoading = false;
       });
+
+      // Progressive Disclosure Animation
+      _listAnimationController.forward();
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        _showSnackBar('Ошибка загрузки: $e', isError: true);
+        _showEnterpriseSnackBar('Ошибка загрузки: $e', isError: true);
       }
     }
   }
@@ -124,284 +164,202 @@ class _ClientsPageState extends State<ClientsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundMain,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildStunningHeader(),
-            _buildGlassmorphismSearchBar(),
-            Expanded(
-              child: _isLoading ? _buildLoadingState() : _buildClientsList(),
-            ),
-          ],
-        ),
+      backgroundColor: AppColors.surface0,
+      extendBodyBehindAppBar: true,
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          _buildEnterpriseAppBar(),
+          SliverToBoxAdapter(child: _buildHeroSection()),
+          SliverToBoxAdapter(child: _buildIntelligentSearch()),
+          _buildClientsContent(),
+        ],
       ),
-      floatingActionButton: _buildLiquidFAB(),
+      floatingActionButton: _buildQuantumFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  /// Элегантный header с glassmorphism эффектом
-  Widget _buildStunningHeader() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppConstants.glassRadiusLarge),
+  // =====================================================================
+  // ENTERPRISE APP BAR - Glass Navigation Header
+  // =====================================================================
+
+  Widget _buildEnterpriseAppBar() {
+    return SliverAppBar(
+      expandedHeight: 0,
+      floating: true,
+      pinned: false,
+      snap: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      flexibleSpace: ClipRRect(
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: AppConstants.glassBlur, sigmaY: AppConstants.glassBlur),
+          filter: ImageFilter.blur(
+            sigmaX: AppConstants.glassBlurNavigation,
+            sigmaY: AppConstants.glassBlurNavigation,
+          ),
           child: Container(
-            decoration: ModernDecorations.glassHeavy,
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Клиенты',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Управление базой клиентов',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Статистический badge
-                AnimatedBuilder(
-                  animation: _breathingAnimation,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _breathingAnimation.value,
-                      child: GlassContainer(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        borderRadius: AppConstants.glassRadius,
-                        child: Column(
-                          children: [
-                            Text(
-                              '${_clients.length}',
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.accentMain,
-                              ),
-                            ),
-                            Text(
-                              'клиентов',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textTertiary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+            decoration: ModernDecorations.navigationGlass,
           ),
         ),
       ),
-    );
-  }
-
-  /// Glassmorphism search bar с blur эффектом
-  Widget _buildGlassmorphismSearchBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: AppConstants.glassBlur, sigmaY: AppConstants.glassBlur),
-          child: Container(
-            decoration: ModernDecorations.glassBase,
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Поиск клиентов...',
-                hintStyle: TextStyle(
-                  color: AppColors.textTertiary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-                prefixIcon: AnimatedBuilder(
-                  animation: _searchAnimation,
-                  builder: (context, child) {
-                    return Transform.rotate(
-                      angle: _searchAnimation.value * 0.1,
-                      child: Icon(
-                        Icons.search_rounded,
-                        color: AppColors.accentMain,
-                        size: 22,
-                      ),
-                    );
-                  },
-                ),
-                suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(
-                        onPressed: () {
-                          setState(() => _searchQuery = '');
-                          _loadClients();
-                        },
-                        icon: Icon(
-                          Icons.clear_rounded,
-                          color: AppColors.textTertiary,
-                          size: 20,
-                        ),
-                      )
-                    : null,
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-              ),
-              onChanged: (value) {
-                _searchController.forward();
-                _searchTimer?.cancel();
-                _searchTimer = Timer(const Duration(milliseconds: 500), () {
-                  setState(() => _searchQuery = value);
-                  _loadClients();
-                  _searchController.reverse();
-                });
-              },
-            ),
-          ),
-        ),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
       ),
     );
   }
 
-  /// Состояние загрузки с glassmorphism эффектом
-  Widget _buildLoadingState() {
-    return Center(
-      child: AnimatedBuilder(
-        animation: _breathingAnimation,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _breathingAnimation.value,
-            child: GlassContainer(
-              padding: const EdgeInsets.all(32),
-              borderRadius: AppConstants.glassRadiusLarge,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      gradient: AppColors.elegantAccent,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: const Icon(
-                      Icons.people_outline_rounded,
-                      color: AppColors.textOnPrimary,
-                      size: 30,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Загрузка клиентов...',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // =====================================================================
+  // HERO SECTION - Emotional Intelligence Design
+  // =====================================================================
 
-  /// Список клиентов с organic карточками
-  Widget _buildClientsList() {
-    if (_clients.isEmpty) {
-      return _buildEmptyState();
-    }
-
-    return RefreshIndicator(
-      onRefresh: _loadClients,
-      backgroundColor: AppColors.surfaceMain,
-      color: AppColors.accentMain,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _clients.length,
-        itemBuilder: (context, index) {
-          final client = _clients[index];
-          return _buildOrganicClientCard(client, index);
-        },
-      ),
-    );
-  }
-
-  /// Glassmorphism карточка клиента с breathing эффектом
-  Widget _buildOrganicClientCard(Client client, int index) {
+  Widget _buildHeroSection() {
     return AnimatedBuilder(
-      animation: _breathingAnimation,
+      animation: _heroAnimationController,
       builder: (context, child) {
-        // Каждая карточка дышит с небольшой задержкой
-        final delayedScale = 1.0 + ((_breathingAnimation.value - 1.0) * 0.3);
-
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          child: Transform.scale(
-            scale: delayedScale,
-            child: Hero(
-              tag: 'client_${client.id}',
-              child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () => _navigateToClientDetail(client),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(AppConstants.glassRadius),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: AppConstants.glassBlur, sigmaY: AppConstants.glassBlur),
-                      child: Container(
-                        decoration: ModernDecorations.glassClientCard,
-                        child: Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(AppConstants.glassRadius),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(AppConstants.glassRadius),
-                            onTap: () => _navigateToClientDetail(client),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Row(
-                                children: [
-                                  _buildGlassAvatar(client),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: _buildClientInfo(client),
-                                  ),
-                                  _buildStatusBadge(client.status),
-                                ],
-                              ),
-                            ),
+        return SlideTransition(
+          position: _heroSlideAnimation,
+          child: ScaleTransition(
+            scale: _heroScaleAnimation,
+            child: Container(
+              margin: EdgeInsets.all(AppConstants.spaceLarge),
+              child: ModernDecorations.createGlassContainer(
+                borderRadius: AppConstants.radiusXLarge,
+                blurRadius: AppConstants.glassBlurCard,
+                padding: EdgeInsets.all(AppConstants.spaceLarge),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Main Title with Progressive Disclosure
+                          Text(
+                            'Клиенты',
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayMedium
+                                ?.copyWith(
+                                  color: AppColors.textPrimary,
+                                  fontWeight: AppConstants.fontWeightBold,
+                                  letterSpacing: -0.5,
+                                ),
                           ),
-                        ),
+                          SizedBox(height: AppConstants.spaceMicro),
+
+                          // Subtitle with Intelligence
+                          Text(
+                            'Управление отношениями',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                  color: AppColors.textSecondary,
+                                  fontWeight: AppConstants.fontWeightRegular,
+                                ),
+                          ),
+                        ],
                       ),
                     ),
+
+                    // Quantum Statistics Badge
+                    _buildQuantumStatsBadge(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildQuantumStatsBadge() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppConstants.spaceMedium,
+        vertical: AppConstants.spaceSmall,
+      ),
+      decoration: ModernDecorations.createBrandDecoration(
+        borderRadius: AppConstants.radiusLarge,
+        elevation: AppConstants.elevation2,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '${_clients.length}',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: AppColors.textInverse,
+                  fontWeight: AppConstants.fontWeightBold,
+                ),
+          ),
+          Text(
+            'клиентов',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: AppColors.textInverse.withValues(alpha: 0.9),
+                  fontWeight: AppConstants.fontWeightMedium,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // =====================================================================
+  // INTELLIGENT SEARCH - Focus-Aware Interface
+  // =====================================================================
+
+  Widget _buildIntelligentSearch() {
+    return AnimatedBuilder(
+      animation: _searchFocusAnimation,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _searchFocusAnimation.value,
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: AppConstants.spaceLarge,
+              vertical: AppConstants.spaceSmall,
+            ),
+            child: ModernDecorations.createGlassContainer(
+              borderRadius: AppConstants.radiusLarge,
+              blurRadius: AppConstants.glassBlurCard,
+              padding: EdgeInsets.symmetric(
+                horizontal: AppConstants.spaceMicro,
+                vertical: AppConstants.spaceMicro,
+              ),
+              child: TextField(
+                onChanged: _handleSearchWithIntelligence,
+                onTap: () => _searchAnimationController.forward(),
+                onSubmitted: (_) => _searchAnimationController.reverse(),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                decoration: InputDecoration(
+                  hintText: 'Поиск клиентов...',
+                  hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: AppColors.textQuaternary,
+                      ),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: AppColors.quantumCore,
+                    size: AppConstants.iconMedium,
+                  ),
+                  suffixIcon: _searchQuery.isNotEmpty
+                      ? IconButton(
+                          onPressed: _clearSearchWithAnimation,
+                          icon: Icon(
+                            Icons.clear_rounded,
+                            color: AppColors.textTertiary,
+                            size: AppConstants.iconSmall,
+                          ),
+                        )
+                      : null,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: AppConstants.spaceMedium,
+                    vertical: AppConstants.spaceMedium,
                   ),
                 ),
               ),
@@ -412,148 +370,140 @@ class _ClientsPageState extends State<ClientsPage>
     );
   }
 
-  /// Glassmorphism аватар с градиентом
-  Widget _buildGlassAvatar(Client client) {
+  void _handleSearchWithIntelligence(String value) {
+    _searchTimer?.cancel();
+    _searchTimer = Timer(AppConstants.searchDebounceDelay, () {
+      setState(() => _searchQuery = value);
+      _loadClientsWithIntelligence();
+    });
+  }
+
+  void _clearSearchWithAnimation() {
+    setState(() => _searchQuery = '');
+    _loadClientsWithIntelligence();
+    _searchAnimationController.reverse();
+  }
+
+  // =====================================================================
+  // CLIENTS CONTENT - Progressive Disclosure
+  // =====================================================================
+
+  Widget _buildClientsContent() {
+    if (_isLoading) {
+      return SliverToBoxAdapter(child: _buildConsciousLoadingState());
+    }
+
+    if (_clients.isEmpty) {
+      return SliverToBoxAdapter(child: _buildEmptyState());
+    }
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return AnimatedBuilder(
+            animation: _listFadeAnimation,
+            builder: (context, child) {
+              // Staggered animation for each item
+              final itemDelay = index * 0.1;
+              final progress =
+                  (_listFadeAnimation.value - itemDelay).clamp(0.0, 1.0);
+
+              return Opacity(
+                opacity: progress,
+                child: Transform.translate(
+                  offset: Offset(0, (1 - progress) * 20),
+                  child: _buildOrganicClientCard(_clients[index], index),
+                ),
+              );
+            },
+          );
+        },
+        childCount: _clients.length,
+      ),
+    );
+  }
+
+  Widget _buildConsciousLoadingState() {
     return Container(
-      width: 56,
-      height: 56,
-      decoration: ModernDecorations.glassAvatar,
-      child: Center(
-        child: Text(
-          _getInitials(client.name),
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Информация о клиенте
-  Widget _buildClientInfo(Client client) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          client.name,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        if (client.phone != null) ...[
-          const SizedBox(height: 4),
-          Text(
-            client.phone!,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: AppColors.textSecondary,
+      height: 300,
+      margin: EdgeInsets.all(AppConstants.spaceLarge),
+      child: ModernDecorations.createGlassContainer(
+        borderRadius: AppConstants.radiusXLarge,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Quantum Loading Indicator
+            SizedBox(
+              width: 60,
+              height: 60,
+              child: CircularProgressIndicator(
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(AppColors.quantumCore),
+                strokeWidth: 3.0,
+              ),
             ),
-          ),
-        ],
-        if (client.email != null) ...[
-          const SizedBox(height: 2),
-          Text(
-            client.email!,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: AppColors.textTertiary,
+            SizedBox(height: AppConstants.spaceLarge),
+
+            Text(
+              'Загрузка клиентов...',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ],
-    );
-  }
-
-  /// Status badge с пастельными цветами
-  Widget _buildStatusBadge(String status) {
-    final statusData = _getStatusData(status);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: statusData['color'],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: statusData['borderColor'],
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: statusData['shadowColor'],
-            offset: const Offset(0, 2),
-            blurRadius: 6,
-            spreadRadius: -1,
-          ),
-        ],
-      ),
-      child: Text(
-        statusData['name'],
-        style: TextStyle(
-          color: statusData['textColor'],
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
+          ],
         ),
       ),
     );
   }
 
-  /// Empty state с glassmorphism эффектом
   Widget _buildEmptyState() {
-    return Center(
-      child: GlassContainer(
-        padding: const EdgeInsets.all(32),
-        borderRadius: AppConstants.glassRadiusLarge,
+    return Container(
+      margin: EdgeInsets.all(AppConstants.spaceLarge),
+      child: ModernDecorations.createGlassContainer(
+        borderRadius: AppConstants.radiusXLarge,
+        padding: EdgeInsets.all(AppConstants.spaceXLarge),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Organic Icon Container
             Container(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(
-                gradient: AppColors.glassSecondary,
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: const Icon(
+              decoration: ModernDecorations.organicAvatar,
+              child: Icon(
                 Icons.people_outline_rounded,
-                color: AppColors.textPrimary,
-                size: 40,
+                color: AppColors.quantumCore,
+                size: AppConstants.iconXLarge,
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: AppConstants.spaceLarge),
+
             Text(
-              _searchQuery.isEmpty ? 'Нет клиентов' : 'Клиенты не найдены',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
+              _searchQuery.isEmpty ? 'Пока нет клиентов' : 'Клиенты не найдены',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: AppConstants.fontWeightSemiBold,
+                  ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: AppConstants.spaceSmall),
+
             Text(
               _searchQuery.isEmpty
-                  ? 'Добавьте первого клиента\nи начните работу'
+                  ? 'Добавьте первого клиента\nи начните строить отношения'
                   : 'Попробуйте изменить\nпоисковой запрос',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.textSecondary,
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                  ),
             ),
+
             if (_searchQuery.isEmpty) ...[
-              const SizedBox(height: 24),
-              _buildGradientButton(
+              SizedBox(height: AppConstants.spaceLarge),
+              _buildQuantumButton(
                 'Добавить клиента',
                 Icons.add_rounded,
-                () => _showAddClientDialog(),
+                () => _showEnterpriseAddDialog(),
               ),
             ],
           ],
@@ -562,33 +512,148 @@ class _ClientsPageState extends State<ClientsPage>
     );
   }
 
-  /// Glassmorphism floating action button
-  Widget _buildLiquidFAB() {
-    return AnimatedBuilder(
-      animation: _fabAnimation,
-      builder: (context, child) {
-        return Transform.scale(
-          scale: _fabAnimation.value,
-          child: Container(
-            width: 64,
-            height: 64,
-            decoration: ModernDecorations.floatingButton,
-            child: Material(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(32),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(32),
-                onTap: () {
-                  _fabController.forward().then((_) {
-                    _fabController.reverse();
-                  });
-                  _showAddClientDialog();
-                },
-                child: const Icon(
-                  Icons.add_rounded,
-                  color: AppColors.textOnPrimary,
-                  size: 28,
+  // =====================================================================
+  // ORGANIC CLIENT CARDS - Natural Beauty
+  // =====================================================================
+
+  Widget _buildOrganicClientCard(Client client, int index) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: AppConstants.spaceLarge,
+        vertical: AppConstants.spaceSmall,
+      ),
+      child: Hero(
+        tag: 'client_${client.id}',
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => _navigateToClientDetailWithAnimation(client),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(AppConstants.radiusXLarge),
+              topRight: Radius.circular(AppConstants.radiusSmall),
+              bottomLeft: Radius.circular(AppConstants.radiusSmall),
+              bottomRight: Radius.circular(AppConstants.radiusXLarge),
+            ),
+            child: Container(
+              decoration: ModernDecorations.organicCard,
+              padding: EdgeInsets.all(AppConstants.spaceMedium),
+              child: Row(
+                children: [
+                  _buildOrganicAvatar(client),
+                  SizedBox(width: AppConstants.spaceMedium),
+                  Expanded(child: _buildClientInfo(client)),
+                  _buildStatusBadge(client.status),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrganicAvatar(Client client) {
+    return Container(
+      width: 56,
+      height: 56,
+      decoration: ModernDecorations.organicAvatar,
+      child: Center(
+        child: Text(
+          _getInitials(client.name),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.quantumCore,
+                fontWeight: AppConstants.fontWeightBold,
+              ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClientInfo(Client client) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          client.name,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: AppConstants.fontWeightSemiBold,
+              ),
+        ),
+        if (client.phone != null) ...[
+          SizedBox(height: AppConstants.spaceMicro),
+          Text(
+            client.phone!,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.textSecondary,
                 ),
+          ),
+        ],
+        if (client.email != null) ...[
+          SizedBox(height: AppConstants.spaceMicro / 2),
+          Text(
+            client.email!,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.textTertiary,
+                ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildStatusBadge(String status) {
+    final statusData = _getStatusData(status);
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppConstants.spaceSmall,
+        vertical: AppConstants.spaceMicro,
+      ),
+      decoration: BoxDecoration(
+        color: statusData['backgroundColor'],
+        borderRadius: BorderRadius.circular(AppConstants.radiusXLarge),
+        border: Border.all(
+          color: statusData['borderColor'],
+          width: 1.0,
+        ),
+      ),
+      child: Text(
+        statusData['name'],
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: statusData['textColor'],
+              fontWeight: AppConstants.fontWeightSemiBold,
+            ),
+      ),
+    );
+  }
+
+  // =====================================================================
+  // QUANTUM FAB - Intelligent Floating Action
+  // =====================================================================
+
+  Widget _buildQuantumFAB() {
+    return AnimatedBuilder(
+      animation: _fabRotationAnimation,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _fabRotationAnimation.value * 2 * 3.14159,
+          child: FloatingActionButton(
+            onPressed: () {
+              _fabAnimationController.forward().then((_) {
+                _fabAnimationController.reverse();
+              });
+              _showEnterpriseAddDialog();
+            },
+            backgroundColor: AppColors.floatingGlass,
+            elevation: AppConstants.elevation3,
+            child: Container(
+              decoration: ModernDecorations.floatingGlass,
+              child: Icon(
+                Icons.add_rounded,
+                color: AppColors.textInverse,
+                size: AppConstants.iconLarge,
               ),
             ),
           ),
@@ -597,125 +662,97 @@ class _ClientsPageState extends State<ClientsPage>
     );
   }
 
-  /// Элегантная кнопка
-  Widget _buildGradientButton(String text, IconData icon, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        decoration: ModernDecorations.elegantButton,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: AppColors.textOnPrimary, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              text,
-              style: const TextStyle(
-                color: AppColors.textOnPrimary,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // =====================================================================
+  // ENTERPRISE DIALOGS - Modal Excellence
+  // =====================================================================
 
-  // ===== ДИАЛОГИ И МОДАЛЬНЫЕ ОКНА =====
-
-  /// Диалог добавления клиента с glassmorphism дизайном
-  void _showAddClientDialog() {
+  void _showEnterpriseAddDialog() {
     final nameController = TextEditingController();
     final phoneController = TextEditingController();
     final emailController = TextEditingController();
 
     showDialog(
       context: context,
-      barrierColor: AppColors.shadowMedium.withValues(alpha: 0.6),
+      barrierColor: AppColors.enterpriseBlack.withValues(alpha: 0.6),
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppConstants.glassRadiusLarge),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: AppConstants.glassBlur, sigmaY: AppConstants.glassBlur),
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: ModernDecorations.glassHeavy,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        child: ModernDecorations.createGlassContainer(
+          borderRadius: AppConstants.radiusXLarge,
+          blurRadius: AppConstants.glassBlurModal,
+          backgroundColor: AppColors.modalGlass,
+          padding: EdgeInsets.all(AppConstants.spaceLarge),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Dialog Header
+              Row(
                 children: [
-                  // Header
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          gradient: AppColors.elegantAccent,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: const Icon(
-                          Icons.person_add_rounded,
-                          color: AppColors.textOnPrimary,
-                          size: 24,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      const Expanded(
-                        child: Text(
-                          'Новый клиент',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                      ),
+                  Container(
+                    padding: EdgeInsets.all(AppConstants.spaceSmall),
+                    decoration: ModernDecorations.createBrandDecoration(
+                      borderRadius: AppConstants.radiusMedium,
+                    ),
+                    child: Icon(
+                      Icons.person_add_rounded,
+                      color: AppColors.textInverse,
+                      size: AppConstants.iconMedium,
+                    ),
+                  ),
+                  SizedBox(width: AppConstants.spaceMedium),
+                  Expanded(
+                    child: Text(
+                      'Новый клиент',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: AppColors.textPrimary,
+                                fontWeight: AppConstants.fontWeightSemiBold,
+                              ),
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: AppConstants.spaceLarge),
 
-              // Поля ввода
-              _buildNeomorphicTextField(
+              // Input Fields
+              _buildEnterpriseTextField(
                 controller: nameController,
                 label: 'Имя клиента',
                 icon: Icons.person_outline_rounded,
                 isRequired: true,
               ),
-              const SizedBox(height: 16),
-              _buildNeomorphicTextField(
+              SizedBox(height: AppConstants.spaceMedium),
+
+              _buildEnterpriseTextField(
                 controller: phoneController,
                 label: 'Телефон',
                 icon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
               ),
-              const SizedBox(height: 16),
-              _buildNeomorphicTextField(
+              SizedBox(height: AppConstants.spaceMedium),
+
+              _buildEnterpriseTextField(
                 controller: emailController,
                 label: 'Email (опционально)',
                 icon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
               ),
+              SizedBox(height: AppConstants.spaceXLarge),
 
-              const SizedBox(height: 32),
-
-              // Кнопки
+              // Action Buttons
               Row(
                 children: [
                   Expanded(
-                    child: _buildOutlineButton(
+                    child: _buildQuantumOutlineButton(
                       'Отмена',
                       () => Navigator.pop(context),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: AppConstants.spaceMedium),
                   Expanded(
-                    child: _buildGradientButton(
+                    child: _buildQuantumButton(
                       'Создать',
                       Icons.check_rounded,
-                      () => _createClient(
+                      () => _createClientWithIntelligence(
                         nameController.text,
                         phoneController.text,
                         emailController.text,
@@ -731,41 +768,104 @@ class _ClientsPageState extends State<ClientsPage>
     );
   }
 
-  /// Glassmorphism текстовое поле
-  Widget _buildNeomorphicTextField({
+  Widget _buildEnterpriseTextField({
     required TextEditingController controller,
     required String label,
     required IconData icon,
     bool isRequired = false,
     TextInputType? keyboardType,
   }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppConstants.glassRadius),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: AppConstants.glassBlur, sigmaY: AppConstants.glassBlur),
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          decoration: ModernDecorations.glassBase,
-          child: TextField(
-            controller: controller,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              labelText: isRequired ? '$label *' : label,
-              labelStyle: TextStyle(
+    return Container(
+      decoration: ModernDecorations.createSurfaceDecoration(
+        elevation: AppConstants.elevation1,
+        borderRadius: AppConstants.radiusMedium,
+      ),
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: AppColors.textPrimary,
+            ),
+        decoration: InputDecoration(
+          labelText: isRequired ? '$label *' : label,
+          labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppColors.textSecondary,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
               ),
-              prefixIcon: Icon(
+          prefixIcon: Icon(
+            icon,
+            color: AppColors.quantumCore,
+            size: AppConstants.iconSmall,
+          ),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(AppConstants.spaceMedium),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuantumButton(String text, IconData icon, VoidCallback onTap) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppConstants.spaceMedium,
+            vertical: AppConstants.spaceSmall,
+          ),
+          decoration: ModernDecorations.createBrandDecoration(
+            borderRadius: AppConstants.radiusMedium,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
                 icon,
-                color: AppColors.accentMain,
-                size: 20,
+                color: AppColors.textInverse,
+                size: AppConstants.iconSmall,
               ),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
+              SizedBox(width: AppConstants.spaceSmall),
+              Text(
+                text,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AppColors.textInverse,
+                      fontWeight: AppConstants.fontWeightSemiBold,
+                    ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuantumOutlineButton(String text, VoidCallback onTap) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppConstants.spaceMedium,
+            vertical: AppConstants.spaceSmall,
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.quantumCore,
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: AppColors.quantumCore,
+                    fontWeight: AppConstants.fontWeightSemiBold,
+                  ),
             ),
           ),
         ),
@@ -773,54 +873,44 @@ class _ClientsPageState extends State<ClientsPage>
     );
   }
 
-  /// Outline кнопка
-  Widget _buildOutlineButton(String text, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColors.primaryMain.withValues(alpha: 0.6),
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: AppColors.primaryMain,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // =====================================================================
+  // NAVIGATION & LOGIC - Intelligent Interactions
+  // =====================================================================
 
-  // ===== ЛОГИКА И УТИЛИТЫ =====
-
-  /// Переход на детальную страницу клиента
-  Future<void> _navigateToClientDetail(Client client) async {
+  Future<void> _navigateToClientDetailWithAnimation(Client client) async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => ClientDetailPage(clientId: client.id),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ClientDetailPage(clientId: client.id),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOutCubic,
+            )),
+            child: child,
+          );
+        },
+        transitionDuration: AppConstants.animationSlow,
       ),
     );
 
-    // Обновляем список после возвращения с детальной страницы
     if (result == true || result == null) {
-      _loadClients();
+      _loadClientsWithIntelligence();
     }
   }
 
-  /// Создание клиента
-  Future<void> _createClient(String name, String phone, String email) async {
+  Future<void> _createClientWithIntelligence(
+    String name,
+    String phone,
+    String email,
+  ) async {
     if (name.trim().isEmpty) {
-      _showSnackBar('Введите имя клиента', isError: true);
+      _showEnterpriseSnackBar('Введите имя клиента', isError: true);
       return;
     }
 
@@ -839,93 +929,97 @@ class _ClientsPageState extends State<ClientsPage>
 
       if (mounted) {
         Navigator.pop(context);
-        _loadClients();
-        _showSnackBar('Клиент успешно добавлен!', isError: false);
+        _loadClientsWithIntelligence();
+        _showEnterpriseSnackBar('Клиент успешно добавлен!', isError: false);
+
+        // Haptic feedback for success
+        HapticFeedback.lightImpact();
       }
     } catch (e) {
       if (mounted) {
-        _showSnackBar('Ошибка: $e', isError: true);
+        _showEnterpriseSnackBar('Ошибка: $e', isError: true);
       }
     }
   }
 
-  /// Показать snackbar с liquid дизайном
-  void _showSnackBar(String message, {required bool isError}) {
+  void _showEnterpriseSnackBar(String message, {required bool isError}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(AppConstants.spaceSmall),
               decoration: BoxDecoration(
-                color:
-                    isError ? AppColors.errorAccent : AppColors.successAccent,
-                borderRadius: BorderRadius.circular(12),
+                color: isError ? AppColors.errorCore : AppColors.successCore,
+                borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
               ),
               child: Icon(
                 isError
                     ? Icons.error_outline_rounded
                     : Icons.check_circle_outline_rounded,
-                color: Colors.white,
-                size: 20,
+                color: AppColors.textInverse,
+                size: AppConstants.iconSmall,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: AppConstants.spaceSmall),
             Expanded(
               child: Text(
                 message,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textInverse,
+                      fontWeight: AppConstants.fontWeightMedium,
+                    ),
               ),
             ),
           ],
         ),
-        backgroundColor: isError ? AppColors.error : AppColors.success,
+        backgroundColor: isError
+            ? AppColors.errorCore.withValues(alpha: 0.9)
+            : AppColors.successCore.withValues(alpha: 0.9),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
         ),
-        margin: const EdgeInsets.all(16),
+        margin: EdgeInsets.all(AppConstants.spaceMedium),
+        elevation: AppConstants.elevation3,
+        duration: Duration(milliseconds: 3000),
       ),
     );
   }
 
-  // ===== УТИЛИТАРНЫЕ МЕТОДЫ =====
+  // =====================================================================
+  // UTILITY METHODS - Helper Functions
+  // =====================================================================
 
   String _getInitials(String name) {
     final parts = name.trim().split(' ');
-    if (parts.isEmpty) return '';
+    if (parts.isEmpty) return '?';
     if (parts.length == 1) return parts[0][0].toUpperCase();
     return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
   }
 
   Map<String, dynamic> _getStatusData(String status) {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case 'new':
         return {
           'name': 'Новый',
-          'color': AppColors.success,
-          'borderColor': AppColors.successAccent.withValues(alpha: 0.3),
-          'shadowColor': AppColors.successAccent.withValues(alpha: 0.2),
-          'textColor': AppColors.successAccent,
+          'backgroundColor': AppColors.successLight,
+          'borderColor': AppColors.successCore.withValues(alpha: 0.3),
+          'textColor': AppColors.successCore,
         };
       case 'vip':
         return {
           'name': 'VIP',
-          'color': AppColors.accentMain,
-          'borderColor': AppColors.accentWarm.withValues(alpha: 0.3),
-          'shadowColor': AppColors.accentWarm.withValues(alpha: 0.2),
-          'textColor': AppColors.accentWarm,
+          'backgroundColor': AppColors.premiumGold.withValues(alpha: 0.1),
+          'borderColor': AppColors.premiumGold.withValues(alpha: 0.3),
+          'textColor': AppColors.premiumGold,
         };
       default:
         return {
           'name': 'Постоянный',
-          'color': AppColors.info,
-          'borderColor': AppColors.infoAccent.withValues(alpha: 0.3),
-          'shadowColor': AppColors.infoAccent.withValues(alpha: 0.2),
-          'textColor': AppColors.infoAccent,
+          'backgroundColor': AppColors.infoLight,
+          'borderColor': AppColors.infoCore.withValues(alpha: 0.3),
+          'textColor': AppColors.infoCore,
         };
     }
   }

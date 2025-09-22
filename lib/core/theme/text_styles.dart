@@ -136,21 +136,21 @@ class AppTextStyles {
   );
 
   /// Специальные стили
-  static const TextStyle price = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-    height: 1.2,
-    color: AppColors.primaryMain,
-  );
+  static TextStyle get price => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+        color: AppColors.primaryMain,
+      );
 
-  static const TextStyle priceSmall = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    height: 1.2,
-    color: AppColors.primaryMain,
-  );
+  static TextStyle get priceSmall => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        height: 1.2,
+        color: AppColors.primaryMain,
+      );
 
   static const TextStyle time = TextStyle(
     fontFamily: _fontFamily,
@@ -167,14 +167,14 @@ class AppTextStyles {
     height: 1.3,
   );
 
-  static const TextStyle badge = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 10,
-    fontWeight: FontWeight.w600,
-    height: 1.2,
-    letterSpacing: 0.5,
-    color: AppColors.textOnPrimary,
-  );
+  static TextStyle get badge => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        height: 1.2,
+        letterSpacing: 0.5,
+        color: AppColors.textOnPrimary,
+      );
 
   static const TextStyle tag = TextStyle(
     fontFamily: _fontFamily,
@@ -201,37 +201,37 @@ class AppTextStyles {
   );
 
   /// Состояния
-  static const TextStyle error = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.3,
-    color: AppColors.error,
-  );
+  static TextStyle get error => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.3,
+        color: AppColors.error,
+      );
 
-  static const TextStyle success = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.3,
-    color: AppColors.success,
-  );
+  static TextStyle get success => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.3,
+        color: AppColors.success,
+      );
 
-  static const TextStyle warning = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.3,
-    color: AppColors.warning,
-  );
+  static TextStyle get warning => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.3,
+        color: AppColors.warning,
+      );
 
-  static const TextStyle info = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    height: 1.3,
-    color: AppColors.info,
-  );
+  static TextStyle get info => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.3,
+        color: AppColors.info,
+      );
 
   /// Формы
   static const TextStyle inputLabel = TextStyle(
@@ -258,13 +258,13 @@ class AppTextStyles {
   );
 
   /// Статистика
-  static const TextStyle statValue = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 24,
-    fontWeight: FontWeight.w700,
-    height: 1.2,
-    color: AppColors.primaryMain,
-  );
+  static TextStyle get statValue => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+        color: AppColors.primaryMain,
+      );
 
   static const TextStyle statLabel = TextStyle(
     fontFamily: _fontFamily,
@@ -275,13 +275,13 @@ class AppTextStyles {
     letterSpacing: 0.3,
   );
 
-  static const TextStyle statValueSmall = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    height: 1.2,
-    color: AppColors.primaryMain,
-  );
+  static TextStyle get statValueSmall => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        height: 1.2,
+        color: AppColors.primaryMain,
+      );
 
   /// Карточки клиентов
   static const TextStyle clientName = TextStyle(

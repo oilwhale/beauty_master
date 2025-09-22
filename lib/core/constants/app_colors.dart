@@ -1,168 +1,360 @@
 import 'package:flutter/material.dart';
 
-/// Enterprise-уровень цветовая палитра BeautyMaster 2025
-/// Стиль: Elegant Minimalism + Glassmorphism
+/// Enterprise цветовая система BeautyMaster 2025
+/// Философия: Conscious Minimalism + Progressive Disclosure + Selective Glassmorphism
+/// Принципы: 90% White Space, Intelligent Hierarchy, Emotional Design
 class AppColors {
   AppColors._();
 
-  // ===== PRIMARY COLORS - основные цвета =====
-  static const Color primaryMain = Color(0xFF1A1D29); // Deep Navy Blue
-  static const Color primaryLight = Color(0xFF2D3142); // Lighter Navy
-  static const Color primaryDark = Color(0xFF0F1117); // Darker Navy
-  static const Color primaryAccent = Color(0xFF8B5CF6); // Elegant Purple
+  // =====================================================================
+  // QUANTUM PURPLE - Primary Color System (Математическая прогрессия)
+  // =====================================================================
 
-  // ===== SECONDARY COLORS - вторичные цвета =====
-  static const Color secondaryMain = Color(0xFF6B7280); // Soft Gray
-  static const Color secondaryLight = Color(0xFF9CA3AF); // Light Gray
-  static const Color secondaryDark = Color(0xFF4B5563); // Dark Gray
-  static const Color secondaryAccent = Color(0xFF3B82F6); // Blue Accent
+  /// Quantum Mist - Самый светлый оттенок для фонов
+  static const Color quantumMist = Color(0xFFF8F6FF);
 
-  // ===== ACCENT COLORS - акцентные цвета =====
-  static const Color accentMain = Color(0xFF8B5CF6); // Elegant Purple
-  static const Color accentLight = Color(0xFFA78BFA); // Light Purple
-  static const Color accentDark = Color(0xFF7C3AED); // Dark Purple
-  static const Color accentWarm = Color(0xFFF59E0B); // Warm Orange
+  /// Quantum Fog - Для subtle разделителей и hover состояний
+  static const Color quantumFog = Color(0xFFEDE8FF);
 
-  // ===== NEUTRAL COLORS - нейтральные цвета =====
-  static const Color backgroundMain = Color(0xFFFAFAFA); // Off White
-  static const Color backgroundSecondary = Color(0xFFF3F4F6); // Light Gray
-  static const Color surfaceMain = Color(0xFFFFFFFF); // Pure White
-  static const Color surfaceElevated = Color(0xFFF9FAFB); // Elevated White
-  static const Color surfaceVariant = Color(0xFFF1F5F9); // Variant Surface
+  /// Quantum Light - Для light backgrounds и disabled состояний
+  static const Color quantumLight = Color(0xFFDDD5FF);
 
-  // ===== TEXT COLORS - цвета текста =====
-  static const Color textPrimary = Color(0xFF111827); // Dark Gray
-  static const Color textSecondary = Color(0xFF6B7280); // Medium Gray
-  static const Color textTertiary = Color(0xFF9CA3AF); // Light Gray
-  static const Color textMuted = Color(0xFFD1D5DB); // Muted Gray
-  static const Color textOnPrimary = Color(0xFFFFFFFF); // White on colored
-  static const Color textOnDark = Color(0xFFF9FAFB); // Light text on dark
+  /// Quantum Soft - Для secondary элементов и borders
+  static const Color quantumSoft = Color(0xFFC4B5FF);
 
-  // ===== GLASSMORPHISM COLORS - цвета для glassmorphism =====
-  static const Color glassBackground = Color(0x1AFFFFFF); // Glass background
-  static const Color glassBorder = Color(0x33FFFFFF); // Glass border
-  static const Color glassShadow = Color(0x0A000000); // Glass shadow
-  static const Color glassOverlay = Color(0x0DFFFFFF); // Glass overlay
+  /// Quantum Medium - Для interactive элементов в passive состоянии
+  static const Color quantumMedium = Color(0xFFA78BFF);
 
-  // ===== SHADOWS - тени =====
-  static const Color shadowLight = Color(0x0A000000); // Light shadow
-  static const Color shadowMedium = Color(0x1A000000); // Medium shadow
-  static const Color shadowDark = Color(0x33000000); // Dark shadow
-  static const Color shadowSubtle = Color(0x05000000); // Subtle shadow
+  /// Quantum Core - Основной brand color, главный акцент
+  static const Color quantumCore = Color(0xFF8B5CF6);
 
-  // ===== STATUS COLORS - статусные цвета =====
-  static const Color success = Color(0xFF10B981); // Success Green
-  static const Color successAccent = Color(0xFFD1FAE5); // Success Light
-  static const Color warning = Color(0xFFF59E0B); // Warning Orange
-  static const Color warningAccent = Color(0xFFFEF3C7); // Warning Light
-  static const Color error = Color(0xFFEF4444); // Error Red
-  static const Color errorAccent = Color(0xFFFEE2E2); // Error Light
-  static const Color info = Color(0xFF3B82F6); // Info Blue
-  static const Color infoAccent = Color(0xFFDBEAFE); // Info Light
+  /// Quantum Deep - Для active состояний и emphasis
+  static const Color quantumDeep = Color(0xFF7C3AED);
 
-  // ===== GLASSMORPHISM GRADIENTS - glassmorphism градиенты =====
-  static const LinearGradient glassPrimary = LinearGradient(
+  /// Quantum Dark - Для pressed состояний и strong emphasis
+  static const Color quantumDark = Color(0xFF6D28D9);
+
+  /// Quantum Intense - Для критически важных элементов
+  static const Color quantumIntense = Color(0xFF5B21B6);
+
+  /// Quantum Black - Максимальный контраст, для текста на светлом
+  static const Color quantumBlack = Color(0xFF4C1D95);
+
+  // =====================================================================
+  // ENTERPRISE GRAYS - Neutral System (Semantic Naming)
+  // =====================================================================
+
+  /// Абсолютно чистый белый для main backgrounds
+  static const Color enterpriseWhite = Color(0xFFFDFDFE);
+
+  /// Едва заметный оттенок для subtle backgrounds
+  static const Color enterpriseLight = Color(0xFFF8FAFC);
+
+  /// Мягкий фон для cards и panels
+  static const Color enterpriseSoft = Color(0xFFE2E8F0);
+
+  /// Средний тон для borders и dividers
+  static const Color enterpriseMedium = Color(0xFFCBD5E1);
+
+  /// Нейтральный тон для secondary text и icons
+  static const Color enterpriseNeutral = Color(0xFF94A3B8);
+
+  /// Основной серый для body text
+  static const Color enterpriseCore = Color(0xFF64748B);
+
+  /// Глубокий серый для headings
+  static const Color enterpriseDeep = Color(0xFF475569);
+
+  /// Темный серый для important text
+  static const Color enterpriseDark = Color(0xFF334155);
+
+  /// Очень темный для high contrast text
+  static const Color enterpriseDarker = Color(0xFF1E293B);
+
+  /// Максимальный контраст для critical text
+  static const Color enterpriseBlack = Color(0xFF0F172A);
+
+  // =====================================================================
+  // SEMANTIC COLORS - Intelligent Feedback System
+  // =====================================================================
+
+  /// Success - Emerald Intelligence (умный зеленый)
+  static const Color successCore = Color(0xFF10B981);
+  static const Color successLight = Color(0xFFD1FAE5);
+  static const Color successDark = Color(0xFF047857);
+
+  /// Warning - Amber Awareness (внимательный оранжевый)
+  static const Color warningCore = Color(0xFFF59E0B);
+  static const Color warningLight = Color(0xFFFEF3C7);
+  static const Color warningDark = Color(0xFFD97706);
+
+  /// Error - Ruby Alert (тревожный красный)
+  static const Color errorCore = Color(0xFFEF4444);
+  static const Color errorLight = Color(0xFFFEE2E2);
+  static const Color errorDark = Color(0xFFDC2626);
+
+  /// Info - Cyan Intelligence (информативный циан)
+  static const Color infoCore = Color(0xFF06B6D4);
+  static const Color infoLight = Color(0xFFCFFAFE);
+  static const Color infoDark = Color(0xFF0891B2);
+
+  // =====================================================================
+  // PREMIUM ACCENTS - Luxury Touch Points
+  // =====================================================================
+
+  /// Premium Gold - для VIP элементов и highlights
+  static const Color premiumGold = Color(0xFFF59E0B);
+
+  /// Premium Rose - для emotional connections
+  static const Color premiumRose = Color(0xFFF43F5E);
+
+  /// Premium Emerald - для success и achievements
+  static const Color premiumEmerald = Color(0xFF10B981);
+
+  /// Premium Sky - для information и trust
+  static const Color premiumSky = Color(0xFF0EA5E9);
+
+  // =====================================================================
+  // GLASSMORPHISM SYSTEM - Strategic Glass Elements
+  // =====================================================================
+
+  /// Navigation Glass - для навигационных элементов
+  static const Color navigationGlass = Color(0xCCFFFFFF); // 80% white
+
+  /// Modal Glass - для модальных окон и overlays
+  static const Color modalGlass = Color(0xF2FFFFFF); // 95% white
+
+  /// Floating Glass - для floating action buttons
+  static const Color floatingGlass = Color(0xE68B5CF6); // 90% quantum core
+
+  /// Card Glass - для стеклянных карточек
+  static const Color cardGlass = Color(0xE6FFFFFF); // 90% white
+
+  /// Sidebar Glass - для боковых панелей
+  static const Color sidebarGlass = Color(0xF9FFFFFF); // 97% white
+
+  // =====================================================================
+  // SURFACE SYSTEM - Elevation Hierarchy (Material Design 3)
+  // =====================================================================
+
+  /// Surface Level 0 - Page background
+  static const Color surface0 = enterpriseWhite;
+
+  /// Surface Level 1 - Cards, panels, basic containers
+  static const Color surface1 = enterpriseLight;
+
+  /// Surface Level 2 - Elevated cards, dropdowns
+  static const Color surface2 = enterpriseSoft;
+
+  /// Surface Level 3 - Modals, dialogs, floating elements
+  static const Color surface3 = Color(0xFFF1F5F9);
+
+  /// Surface Level 4 - Tooltips, critical alerts
+  static const Color surface4 = Color(0xFFE2E8F0);
+
+  /// Surface Level 5 - Maximum elevation elements
+  static const Color surface5 = Color(0xFFCBD5E1);
+
+  // =====================================================================
+  // TEXT HIERARCHY - Conscious Readability System
+  // =====================================================================
+
+  /// Primary Text - Максимальная читаемость (WCAG AAA)
+  static const Color textPrimary = enterpriseBlack;
+
+  /// Secondary Text - Важная но не критичная информация
+  static const Color textSecondary = enterpriseDeep;
+
+  /// Tertiary Text - Дополнительная информация
+  static const Color textTertiary = enterpriseCore;
+
+  /// Quaternary Text - Metadata, timestamps, subtle info
+  static const Color textQuaternary = enterpriseNeutral;
+
+  /// Disabled Text - Неактивные элементы
+  static const Color textDisabled = enterpriseMedium;
+
+  /// Inverse Text - Текст на темном фоне
+  static const Color textInverse = enterpriseWhite;
+
+  /// Accent Text - Акцентный текст (ссылки, highlights)
+  static const Color textAccent = quantumCore;
+
+  /// Primary Main - Основной цвет
+  static const Color primaryMain = quantumCore;
+
+  /// Secondary Main - Вторичный цвет
+  static const Color secondaryMain = quantumMedium;
+
+  /// Accent Main - Акцентный цвет
+  static const Color accentMain = quantumCore;
+
+  /// Text On Primary - Текст на основном цвете
+  static const Color textOnPrimary = textInverse;
+
+  /// Elegant Accent - Элегантный акцент
+  static const LinearGradient elegantAccent = gradientPrimary;
+
+  /// Error - Цвет ошибки
+  static const Color error = errorCore;
+
+  /// Success - Цвет успеха
+  static const Color success = successCore;
+
+  /// Warning - Цвет предупреждения
+  static const Color warning = warningCore;
+
+  /// Info - Информационный цвет
+  static const Color info = infoCore;
+
+  // =====================================================================
+  // INTERACTIVE STATES - Micro-interaction Colors
+  // =====================================================================
+
+  /// Hover State - Едва заметное изменение
+  static const Color stateHover = Color(0x0A8B5CF6); // 4% quantum core
+
+  /// Focus State - Четкий индикатор фокуса
+  static const Color stateFocus = Color(0x1A8B5CF6); // 10% quantum core
+
+  /// Pressed State - Immediate feedback
+  static const Color statePressed = Color(0x1F8B5CF6); // 12% quantum core
+
+  /// Selected State - Persistent selection
+  static const Color stateSelected = Color(0x0F8B5CF6); // 6% quantum core
+
+  /// Disabled State - Clearly inactive
+  static const Color stateDisabled = Color(0x40CBD5E1); // 25% enterprise medium
+
+  // =====================================================================
+  // BORDER SYSTEM - Intelligent Boundaries
+  // =====================================================================
+
+  /// Subtle Border - Едва заметные разделители
+  static const Color borderSubtle = Color(0xFFE2E8F0);
+
+  /// Default Border - Стандартные границы
+  static const Color borderDefault = Color(0xFFCBD5E1);
+
+  /// Medium Border - Заметные границы для важных элементов
+  static const Color borderMedium = Color(0xFF94A3B8);
+
+  /// Strong Border - Четкие границы для критичных элементов
+  static const Color borderStrong = Color(0xFF64748B);
+
+  /// Focus Border - Границы в состоянии фокуса
+  static const Color borderFocus = quantumCore;
+
+  /// Error Border - Границы для ошибок
+  static const Color borderError = errorCore;
+
+  // =====================================================================
+  // SHADOW SYSTEM - Depth Perception Colors
+  // =====================================================================
+
+  /// Micro Shadow - Для subtle depth (1-2dp elevation)
+  static const Color shadowMicro = Color(0x051E293B); // 2% enterprise black
+
+  /// Small Shadow - Для small cards (2-4dp elevation)
+  static const Color shadowSmall = Color(0x0A1E293B); // 4% enterprise black
+
+  /// Medium Shadow - Для standard elevation (4-8dp elevation)
+  static const Color shadowMedium = Color(0x0F1E293B); // 6% enterprise black
+
+  /// Large Shadow - Для high elevation (8-16dp elevation)
+  static const Color shadowLarge = Color(0x141E293B); // 8% enterprise black
+
+  /// XLarge Shadow - Для floating elements (16-24dp elevation)
+  static const Color shadowXLarge = Color(0x1A1E293B); // 10% enterprise black
+
+  /// Brand Shadow - Цветная тень для brand elements
+  static const Color shadowBrand = Color(0x1A8B5CF6); // 10% quantum core
+
+  // =====================================================================
+  // GRADIENT SYSTEM - Enterprise Gradients
+  // =====================================================================
+
+  /// Primary Brand Gradient - Основной градиент бренда
+  static const LinearGradient gradientPrimary = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0x1A8B5CF6), // Purple glass
-      Color(0x0D8B5CF6), // Lighter purple glass
-    ],
-    stops: [0.0, 1.0],
+    colors: [quantumCore, quantumDeep],
   );
 
-  static const LinearGradient glassSecondary = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    colors: [
-      Color(0x1A3B82F6), // Blue glass
-      Color(0x0D3B82F6), // Lighter blue glass
-    ],
-    stops: [0.0, 1.0],
-  );
-
-  static const LinearGradient glassAccent = LinearGradient(
+  /// Subtle Background Gradient - Едва заметный фоновый градиент
+  static const LinearGradient gradientSubtle = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [
-      Color(0x1AF59E0B), // Orange glass
-      Color(0x0DF59E0B), // Lighter orange glass
-    ],
-    stops: [0.0, 1.0],
+    colors: [enterpriseWhite, enterpriseLight],
   );
 
-  static const LinearGradient glassNeutral = LinearGradient(
+  /// Glass Gradient - Для стеклянных элементов
+  static const LinearGradient gradientGlass = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0x1AFFFFFF), // White glass
-      Color(0x0DFFFFFF), // Lighter white glass
+      Color(0xFFFFFFFF),
+      Color(0xF2FFFFFF),
     ],
-    stops: [0.0, 1.0],
   );
 
-  // ===== ELEGANT GRADIENTS - элегантные градиенты =====
-  static const LinearGradient elegantPrimary = LinearGradient(
+  /// Success Gradient - Для success состояний
+  static const LinearGradient gradientSuccess = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF1A1D29), // Deep Navy
-      Color(0xFF2D3142), // Lighter Navy
-    ],
-    stops: [0.0, 1.0],
+    colors: [successCore, successDark],
   );
 
-  static const LinearGradient elegantAccent = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF8B5CF6), // Purple
-      Color(0xFFA78BFA), // Light Purple
-    ],
-    stops: [0.0, 1.0],
-  );
+  // =====================================================================
+  // UTILITY METHODS - Smart Color Functions
+  // =====================================================================
 
-  // ===== INTERACTIVE STATES - интерактивные состояния =====
-  static const Color hover = Color(0x0A8B5CF6); // Hover effect
-  static const Color pressed = Color(0x1A8B5CF6); // Pressed state
-  static const Color focused = Color(0x1A8B5CF6); // Focused state
-  static const Color disabled = Color(0xFFE5E7EB); // Disabled
-  static const Color ripple = Color(0x1A8B5CF6); // Ripple effect
-
-  // ===== GLASSMORPHISM STATES - состояния glassmorphism =====
-  static const Color glassHover = Color(0x1AFFFFFF); // Glass hover
-  static const Color glassPressed = Color(0x2AFFFFFF); // Glass pressed
-  static const Color glassFocused = Color(0x33FFFFFF); // Glass focused
-
-  // ===== ELEVATION LAYERS - слои для глубины =====
-  static const Color elevation1 = Color(0xFFF9FAFB); // Elevation 1
-  static const Color elevation2 = Color(0xFFF3F4F6); // Elevation 2
-  static const Color elevation3 = Color(0xFFE5E7EB); // Elevation 3
-  static const Color elevation4 = Color(0xFFD1D5DB); // Elevation 4
-
-  // ===== UTILITY METHODS - утилитарные методы =====
-
-  /// Создает адаптивный цвет для темной темы
-  static Color adaptive(Color lightColor, Color darkColor, bool isDark) {
-    return isDark ? darkColor : lightColor;
+  /// Создает адаптивный цвет в зависимости от темы
+  static Color adaptive({
+    required Color light,
+    required Color dark,
+    required bool isDarkMode,
+  }) {
+    return isDarkMode ? dark : light;
   }
 
-  /// Создает цвет с прозрачностью
-  static Color withOpacity(Color color, double opacity) {
-    return color.withValues(alpha: opacity);
+  /// Создает цвет с заданной прозрачностью
+  static Color withAlpha(Color color, double alpha) {
+    return color.withValues(alpha: alpha.clamp(0.0, 1.0));
   }
 
-  /// Создает более светлую версию цвета
-  static Color lighten(Color color, [double amount = 0.1]) {
-    final hsl = HSLColor.fromColor(color);
-    final lightness = (hsl.lightness + amount).clamp(0.0, 1.0);
-    return hsl.withLightness(lightness).toColor();
+  /// Получает правильный цвет текста для фона
+  static Color getTextColorForBackground(Color backgroundColor) {
+    final luminance = backgroundColor.computeLuminance();
+    return luminance > 0.5 ? textPrimary : textInverse;
   }
 
-  /// Создает более темную версию цвета
-  static Color darken(Color color, [double amount = 0.1]) {
-    final hsl = HSLColor.fromColor(color);
-    final lightness = (hsl.lightness - amount).clamp(0.0, 1.0);
-    return hsl.withLightness(lightness).toColor();
+  /// Создает hover вариант цвета
+  static Color getHoverColor(Color baseColor) {
+    final hsl = HSLColor.fromColor(baseColor);
+    return hsl
+        .withLightness(
+          (hsl.lightness + 0.05).clamp(0.0, 1.0),
+        )
+        .toColor();
+  }
+
+  /// Создает pressed вариант цвета
+  static Color getPressedColor(Color baseColor) {
+    final hsl = HSLColor.fromColor(baseColor);
+    return hsl
+        .withLightness(
+          (hsl.lightness - 0.05).clamp(0.0, 1.0),
+        )
+        .toColor();
+  }
+
+  /// Проверяет accessibility контраст
+  static bool hasAccessibleContrast(Color foreground, Color background) {
+    final foregroundLuminance = foreground.computeLuminance();
+    final backgroundLuminance = background.computeLuminance();
+
+    final ratio = (foregroundLuminance + 0.05) / (backgroundLuminance + 0.05);
+    return ratio >= 4.5; // WCAG AA standard
   }
 }
