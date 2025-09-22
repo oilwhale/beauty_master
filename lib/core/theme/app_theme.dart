@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_constants.dart';
 
-/// Ультрасовременная тема приложения BeautyMaster 2025
-/// Стиль: Neomorphic Pastels + Liquid Motion + Organic Shapes
+/// Enterprise-уровень тема приложения BeautyMaster 2025
+/// Стиль: Elegant Minimalism + Glassmorphism
 class AppTheme {
   AppTheme._();
 
@@ -116,51 +116,51 @@ class AppTheme {
 
   // ===== COLOR SCHEMES - цветовые схемы =====
 
-  /// Светлая цветовая схема с пастельными тонами
+  /// Светлая цветовая схема - Enterprise стиль
   static const ColorScheme _lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: AppColors.primaryMain,
-    onPrimary: AppColors.textPrimary,
+    onPrimary: AppColors.textOnPrimary,
     secondary: AppColors.secondaryMain,
-    onSecondary: AppColors.textPrimary,
+    onSecondary: AppColors.textOnPrimary,
     tertiary: AppColors.accentMain,
-    onTertiary: AppColors.textPrimary,
-    error: AppColors.errorAccent,
+    onTertiary: AppColors.textOnPrimary,
+    error: AppColors.error,
     onError: AppColors.textOnPrimary,
     surface: AppColors.surfaceMain,
     onSurface: AppColors.textPrimary,
     surfaceContainerHighest: AppColors.surfaceElevated,
     onSurfaceVariant: AppColors.textSecondary,
-    outline: AppColors.primaryLight,
+    outline: AppColors.glassBorder,
     shadow: AppColors.shadowMedium,
     inverseSurface: AppColors.textPrimary,
     onInverseSurface: AppColors.surfaceMain,
   );
 
-  /// Темная цветовая схема (приглушенная)
+  /// Темная цветовая схема - Enterprise стиль
   static const ColorScheme _darkColorScheme = ColorScheme(
     brightness: Brightness.dark,
-    primary: AppColors.primaryDark,
-    onPrimary: AppColors.textOnPrimary,
-    secondary: AppColors.secondaryDark,
-    onSecondary: AppColors.textOnPrimary,
-    tertiary: AppColors.accentDark,
-    onTertiary: AppColors.textOnPrimary,
-    error: AppColors.errorAccent,
+    primary: AppColors.primaryLight,
+    onPrimary: AppColors.textOnDark,
+    secondary: AppColors.secondaryLight,
+    onSecondary: AppColors.textOnDark,
+    tertiary: AppColors.accentLight,
+    onTertiary: AppColors.textOnDark,
+    error: AppColors.error,
     onError: AppColors.textOnPrimary,
-    surface: Color(0xFF2D1B3D),
-    onSurface: AppColors.surfaceMain,
-    surfaceContainerHighest: Color(0xFF3D2B4D),
+    surface: AppColors.primaryDark,
+    onSurface: AppColors.textOnDark,
+    surfaceContainerHighest: AppColors.primaryMain,
     onSurfaceVariant: AppColors.textMuted,
-    outline: AppColors.primaryDark,
-    shadow: Color(0xFF000000),
+    outline: AppColors.glassBorder,
+    shadow: AppColors.shadowDark,
     inverseSurface: AppColors.surfaceMain,
     onInverseSurface: AppColors.textPrimary,
   );
 
   // ===== COMPONENT THEMES - темы компонентов =====
 
-  /// Тема AppBar с прозрачностью и градиентом
+  /// Тема AppBar - Enterprise стиль
   static AppBarTheme _appBarTheme(bool isLight) {
     return AppBarTheme(
       backgroundColor: Colors.transparent,
@@ -169,38 +169,38 @@ class AppTheme {
       systemOverlayStyle:
           isLight ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
       titleTextStyle: TextStyle(
-        color: isLight ? AppColors.textPrimary : AppColors.surfaceMain,
-        fontSize: 22,
+        color: isLight ? AppColors.textPrimary : AppColors.textOnDark,
+        fontSize: 20,
         fontWeight: FontWeight.w600,
-        letterSpacing: -0.3,
+        letterSpacing: -0.2,
       ),
       iconTheme: IconThemeData(
-        color: isLight ? AppColors.textPrimary : AppColors.surfaceMain,
+        color: isLight ? AppColors.textPrimary : AppColors.textOnDark,
         size: AppConstants.iconMedium,
       ),
       actionsIconTheme: IconThemeData(
-        color: isLight ? AppColors.textSecondary : AppColors.surfaceMain,
+        color: isLight ? AppColors.textSecondary : AppColors.textMuted,
         size: AppConstants.iconMedium,
       ),
     );
   }
 
-  /// Тема BottomNavigationBar с liquid эффектами
+  /// Тема BottomNavigationBar - Enterprise стиль
   static BottomNavigationBarThemeData _bottomNavigationBarTheme(bool isLight) {
     return BottomNavigationBarThemeData(
       backgroundColor: Colors.transparent,
       elevation: 0,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: AppColors.primaryMain,
+      selectedItemColor: AppColors.accentMain,
       unselectedItemColor:
           isLight ? AppColors.textTertiary : AppColors.textMuted,
       selectedLabelStyle: const TextStyle(
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: FontWeight.w600,
-        letterSpacing: 0.2,
+        letterSpacing: 0.1,
       ),
       unselectedLabelStyle: const TextStyle(
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.1,
       ),
@@ -209,32 +209,31 @@ class AppTheme {
     );
   }
 
-  /// Тема Card с неоморфизмом
+  /// Тема Card - Enterprise стиль
   static CardThemeData _cardTheme(bool isLight) {
     return CardThemeData(
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
       ),
-      color: isLight ? AppColors.surfaceMain : const Color(0xFF2D1B3D),
+      color: isLight ? AppColors.surfaceMain : AppColors.primaryDark,
       margin: const EdgeInsets.all(AppConstants.paddingSmall),
-      shadowColor: AppColors.shadowMedium,
+      shadowColor: AppColors.shadowSubtle,
     );
   }
 
-  /// Тема ElevatedButton с liquid дизайном
+  /// Тема ElevatedButton - Enterprise стиль
   static ElevatedButtonThemeData _elevatedButtonTheme(bool isLight) {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        foregroundColor:
-            isLight ? AppColors.textPrimary : AppColors.surfaceMain,
+        backgroundColor: AppColors.accentMain,
+        foregroundColor: AppColors.textOnPrimary,
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         ),
-        minimumSize: const Size(double.infinity, 52),
+        minimumSize: const Size(double.infinity, 48),
         padding: const EdgeInsets.symmetric(
           horizontal: AppConstants.paddingLarge,
           vertical: AppConstants.paddingMedium,
@@ -247,28 +246,28 @@ class AppTheme {
       ).copyWith(
         backgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.pressed)) {
-            return AppColors.primaryDark;
+            return AppColors.accentDark;
           }
           if (states.contains(WidgetState.hovered)) {
-            return AppColors.primaryLight;
+            return AppColors.accentLight;
           }
-          return AppColors.primaryMain;
+          return AppColors.accentMain;
         }),
       ),
     );
   }
 
-  /// Тема OutlinedButton с organic формами
+  /// Тема OutlinedButton - Enterprise стиль
   static OutlinedButtonThemeData _outlinedButtonTheme(bool isLight) {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.primaryMain,
+        foregroundColor: AppColors.accentMain,
         side: BorderSide(
-          color: AppColors.primaryMain.withValues(alpha: 0.6),
-          width: 1.5,
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         ),
         minimumSize: const Size(double.infinity, 48),
         padding: const EdgeInsets.symmetric(
@@ -276,7 +275,7 @@ class AppTheme {
           vertical: AppConstants.paddingMedium,
         ),
         textStyle: const TextStyle(
-          fontSize: 15,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.1,
         ),
@@ -284,20 +283,20 @@ class AppTheme {
     );
   }
 
-  /// Тема TextButton минималистичная
+  /// Тема TextButton - Enterprise стиль
   static TextButtonThemeData _textButtonTheme(bool isLight) {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: AppColors.primaryMain,
+        foregroundColor: AppColors.accentMain,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         ),
         padding: const EdgeInsets.symmetric(
           horizontal: AppConstants.paddingMedium,
           vertical: AppConstants.paddingSmall,
         ),
         textStyle: const TextStyle(
-          fontSize: 15,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.1,
         ),
@@ -305,16 +304,16 @@ class AppTheme {
     );
   }
 
-  /// Тема FloatingActionButton с breathing эффектом
+  /// Тема FloatingActionButton - Enterprise стиль
   static FloatingActionButtonThemeData _floatingActionButtonTheme(
       bool isLight) {
     return FloatingActionButtonThemeData(
-      backgroundColor: AppColors.primaryMain,
+      backgroundColor: AppColors.accentMain,
       foregroundColor: AppColors.textOnPrimary,
-      elevation: 8,
-      focusElevation: 12,
-      hoverElevation: 10,
-      highlightElevation: 6,
+      elevation: 4,
+      focusElevation: 8,
+      hoverElevation: 6,
+      highlightElevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(28),
       ),
@@ -322,46 +321,46 @@ class AppTheme {
     );
   }
 
-  /// Тема InputDecoration с неоморфными полями
+  /// Тема InputDecoration - Enterprise стиль
   static InputDecorationTheme _inputDecorationTheme(bool isLight) {
     return InputDecorationTheme(
       filled: true,
-      fillColor: isLight ? AppColors.surfaceMain : const Color(0xFF2D1B3D),
+      fillColor: isLight ? AppColors.surfaceMain : AppColors.primaryDark,
 
       // Границы
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         borderSide: BorderSide(
-          color: AppColors.primaryLight.withValues(alpha: 0.4),
-          width: 1.5,
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         borderSide: BorderSide(
-          color: AppColors.primaryLight.withValues(alpha: 0.4),
-          width: 1.5,
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         borderSide: BorderSide(
-          color: AppColors.primaryMain,
-          width: 2,
+          color: AppColors.accentMain,
+          width: AppConstants.glassBorderWidthThick,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         borderSide: BorderSide(
-          color: AppColors.errorAccent,
-          width: 1.5,
+          color: AppColors.error,
+          width: AppConstants.glassBorderWidth,
         ),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         borderSide: BorderSide(
-          color: AppColors.errorAccent,
-          width: 2,
+          color: AppColors.error,
+          width: AppConstants.glassBorderWidthThick,
         ),
       ),
 
@@ -381,7 +380,7 @@ class AppTheme {
         fontWeight: FontWeight.w500,
       ),
       floatingLabelStyle: TextStyle(
-        color: AppColors.primaryMain,
+        color: AppColors.accentMain,
         fontSize: 14,
         fontWeight: FontWeight.w500,
       ),

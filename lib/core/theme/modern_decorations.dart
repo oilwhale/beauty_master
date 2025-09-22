@@ -3,168 +3,153 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_constants.dart';
 
-/// Ультрасовременные декорации BeautyMaster 2025
-/// Стиль: Neomorphic + Liquid Motion + Organic Shapes
+/// Enterprise-уровень декорации BeautyMaster 2025
+/// Стиль: Elegant Minimalism + Glassmorphism
 class ModernDecorations {
   ModernDecorations._();
 
-  // ===== NEOMORPHIC BASE - базовые неоморфные элементы =====
+  // ===== GLASSMORPHISM BASE - базовые glassmorphism элементы =====
 
-  /// Базовая неоморфная декорация
-  static BoxDecoration get neomorphicBase => BoxDecoration(
-        color: AppColors.surfaceMain,
-        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        boxShadow: [
-          // Светлая тень (блик)
-          BoxShadow(
-            color: AppColors.highlightNeomorphic,
-            offset: const Offset(-6, -6),
-            blurRadius: 12,
-            spreadRadius: 0,
-          ),
-          // Темная тень (глубина)
-          BoxShadow(
-            color: AppColors.shadowMedium,
-            offset: const Offset(6, 6),
-            blurRadius: 12,
-            spreadRadius: 0,
-          ),
-        ],
-      );
-
-  /// Вдавленная неоморфная декорация
-  static BoxDecoration get neomorphicInset => BoxDecoration(
-        color: AppColors.surfaceMain,
-        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        boxShadow: [
-          // Внутренняя тень сверху-слева
-          BoxShadow(
-            color: AppColors.shadowInner,
-            offset: const Offset(4, 4),
-            blurRadius: 8,
-            spreadRadius: -2,
-          ),
-          // Внутренний блик снизу-справа
-          BoxShadow(
-            color: AppColors.highlightNeomorphic,
-            offset: const Offset(-2, -2),
-            blurRadius: 6,
-            spreadRadius: -1,
-          ),
-        ],
-      );
-
-  /// Приподнятая неоморфная декорация
-  static BoxDecoration get neomorphicElevated => BoxDecoration(
-        color: AppColors.surfaceElevated,
-        borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
-        boxShadow: [
-          // Большая светлая тень
-          BoxShadow(
-            color: AppColors.highlightNeomorphic,
-            offset: const Offset(-8, -8),
-            blurRadius: 16,
-            spreadRadius: 0,
-          ),
-          // Большая темная тень
-          BoxShadow(
-            color: AppColors.shadowDark,
-            offset: const Offset(8, 8),
-            blurRadius: 16,
-            spreadRadius: 0,
-          ),
-        ],
-      );
-
-  // ===== LIQUID SHAPES - жидкие формы =====
-
-  /// Liquid карточка с градиентом
-  static BoxDecoration get liquidCard => BoxDecoration(
-        gradient: AppColors.liquidNeutral,
-        borderRadius: BorderRadius.circular(24),
+  /// Базовая glassmorphism декорация
+  static BoxDecoration get glassBase => BoxDecoration(
+        color: AppColors.glassBackground,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         border: Border.all(
-          color: AppColors.primaryLight.withValues(alpha: 0.3),
-          width: 1,
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadowLight,
+            color: AppColors.glassShadow,
             offset: const Offset(0, 4),
-            blurRadius: 12,
-            spreadRadius: -2,
-          ),
-        ],
-      );
-
-  /// Liquid кнопка
-  static BoxDecoration get liquidButton => BoxDecoration(
-        gradient: AppColors.liquidPrimary,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primaryMain.withValues(alpha: 0.3),
-            offset: const Offset(0, 6),
             blurRadius: 20,
-            spreadRadius: -5,
+            spreadRadius: 0,
           ),
         ],
       );
 
-  /// Liquid input поле
-  static BoxDecoration get liquidInput => BoxDecoration(
-        color: AppColors.surfaceMain,
-        borderRadius: BorderRadius.circular(16),
+  /// Легкая glassmorphism декорация
+  static BoxDecoration get glassLight => BoxDecoration(
+        color: AppColors.glassBackground.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadiusSmall),
         border: Border.all(
-          color: AppColors.primaryLight.withValues(alpha: 0.4),
-          width: 1.5,
+          color: AppColors.glassBorder.withValues(alpha: 0.5),
+          width: AppConstants.glassBorderWidth,
         ),
         boxShadow: [
-          // Внутренняя тень
           BoxShadow(
-            color: AppColors.shadowInner,
-            offset: const Offset(2, 2),
-            blurRadius: 6,
-            spreadRadius: -2,
+            color: AppColors.glassShadow,
+            offset: const Offset(0, 2),
+            blurRadius: 10,
+            spreadRadius: 0,
           ),
         ],
       );
 
-  // ===== ORGANIC SHAPES - органические формы =====
-
-  /// Органическая карточка клиента
-  static BoxDecoration get organicClientCard => BoxDecoration(
-        gradient: AppColors.liquidSecondary,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(24),
-          topRight: const Radius.circular(8),
-          bottomLeft: const Radius.circular(8),
-          bottomRight: const Radius.circular(24),
+  /// Тяжелая glassmorphism декорация
+  static BoxDecoration get glassHeavy => BoxDecoration(
+        color: AppColors.glassBackground.withValues(alpha: 0.8),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadiusLarge),
+        border: Border.all(
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidthThick,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadowLight,
+            color: AppColors.glassShadow,
+            offset: const Offset(0, 8),
+            blurRadius: 40,
+            spreadRadius: 0,
+          ),
+        ],
+      );
+
+  // ===== ELEGANT SHAPES - элегантные формы =====
+
+  /// Элегантная карточка
+  static BoxDecoration get elegantCard => BoxDecoration(
+        color: AppColors.surfaceMain,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
+        border: Border.all(
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadowSubtle,
             offset: const Offset(0, 2),
             blurRadius: 8,
-            spreadRadius: -1,
+            spreadRadius: 0,
           ),
         ],
       );
 
-  /// Органическая форма для аватара
-  static BoxDecoration get organicAvatar => BoxDecoration(
-        gradient: AppColors.liquidAccent,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(20),
-          topRight: const Radius.circular(8),
-          bottomLeft: const Radius.circular(12),
-          bottomRight: const Radius.circular(16),
-        ),
+  /// Элегантная кнопка
+  static BoxDecoration get elegantButton => BoxDecoration(
+        gradient: AppColors.elegantAccent,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         boxShadow: [
           BoxShadow(
             color: AppColors.accentMain.withValues(alpha: 0.3),
-            offset: const Offset(0, 3),
-            blurRadius: 8,
-            spreadRadius: -2,
+            offset: const Offset(0, 4),
+            blurRadius: 12,
+            spreadRadius: 0,
+          ),
+        ],
+      );
+
+  /// Элегантное input поле
+  static BoxDecoration get elegantInput => BoxDecoration(
+        color: AppColors.surfaceMain,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
+        border: Border.all(
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadowSubtle,
+            offset: const Offset(0, 1),
+            blurRadius: 4,
+            spreadRadius: 0,
+          ),
+        ],
+      );
+
+  // ===== GLASSMORPHISM SHAPES - glassmorphism формы =====
+
+  /// Glassmorphism карточка клиента
+  static BoxDecoration get glassClientCard => BoxDecoration(
+        color: AppColors.glassBackground,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
+        border: Border.all(
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.glassShadow,
+            offset: const Offset(0, 4),
+            blurRadius: 20,
+            spreadRadius: 0,
+          ),
+        ],
+      );
+
+  /// Glassmorphism форма для аватара
+  static BoxDecoration get glassAvatar => BoxDecoration(
+        color: AppColors.glassBackground,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadiusLarge),
+        border: Border.all(
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.glassShadow,
+            offset: const Offset(0, 2),
+            blurRadius: 12,
+            spreadRadius: 0,
           ),
         ],
       );
@@ -173,43 +158,31 @@ class ModernDecorations {
 
   /// Floating action button
   static BoxDecoration get floatingButton => BoxDecoration(
-        gradient: AppColors.breathingPrimary,
+        gradient: AppColors.elegantAccent,
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
-          // Большая мягкая тень
           BoxShadow(
-            color: AppColors.primaryMain.withValues(alpha: 0.3),
+            color: AppColors.accentMain.withValues(alpha: 0.3),
             offset: const Offset(0, 8),
             blurRadius: 24,
-            spreadRadius: -8,
-          ),
-          // Внутренний блик
-          BoxShadow(
-            color: AppColors.highlightNeomorphic,
-            offset: const Offset(-2, -2),
-            blurRadius: 6,
-            spreadRadius: -2,
+            spreadRadius: 0,
           ),
         ],
       );
 
   /// Floating card
   static BoxDecoration get floatingCard => BoxDecoration(
-        color: AppColors.surfaceMain,
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.glassBackground,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
+        border: Border.all(
+          color: AppColors.glassBorder,
+          width: AppConstants.glassBorderWidth,
+        ),
         boxShadow: [
-          // Основная тень
           BoxShadow(
-            color: AppColors.shadowMedium,
+            color: AppColors.glassShadow,
             offset: const Offset(0, 8),
             blurRadius: 32,
-            spreadRadius: -8,
-          ),
-          // Световой блик
-          BoxShadow(
-            color: AppColors.highlightNeomorphic,
-            offset: const Offset(0, -1),
-            blurRadius: 4,
             spreadRadius: 0,
           ),
         ],
@@ -219,33 +192,33 @@ class ModernDecorations {
 
   /// Bottom navigation bar
   static BoxDecoration get bottomNavigation => BoxDecoration(
-        color: AppColors.surfaceMain.withValues(alpha: 0.95),
+        color: AppColors.glassBackground,
         border: Border(
           top: BorderSide(
-            color: AppColors.primaryLight.withValues(alpha: 0.3),
-            width: 1,
+            color: AppColors.glassBorder,
+            width: AppConstants.glassBorderWidth,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadowLight,
+            color: AppColors.glassShadow,
             offset: const Offset(0, -4),
             blurRadius: 20,
-            spreadRadius: -5,
+            spreadRadius: 0,
           ),
         ],
       );
 
   /// Navigation item active
   static BoxDecoration get navItemActive => BoxDecoration(
-        gradient: AppColors.liquidPrimary,
-        borderRadius: BorderRadius.circular(16),
+        gradient: AppColors.elegantAccent,
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryMain.withValues(alpha: 0.4),
+            color: AppColors.accentMain.withValues(alpha: 0.3),
             offset: const Offset(0, 4),
             blurRadius: 12,
-            spreadRadius: -3,
+            spreadRadius: 0,
           ),
         ],
       );
@@ -253,61 +226,49 @@ class ModernDecorations {
   /// Navigation item inactive
   static BoxDecoration get navItemInactive => BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.glassRadius),
       );
 
   // ===== STATUS ELEMENTS - статусные элементы =====
 
   /// Success badge
   static BoxDecoration successBadge({double radius = 12}) => BoxDecoration(
-        color: AppColors.success,
+        color: AppColors.successAccent,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(
-          color: AppColors.successAccent.withValues(alpha: 0.3),
-          width: 1,
-        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.successAccent.withValues(alpha: 0.2),
+            color: AppColors.success.withValues(alpha: 0.3),
             offset: const Offset(0, 2),
-            blurRadius: 6,
-            spreadRadius: -1,
+            blurRadius: 8,
+            spreadRadius: 0,
           ),
         ],
       );
 
   /// Warning badge
   static BoxDecoration warningBadge({double radius = 12}) => BoxDecoration(
-        color: AppColors.warning,
+        color: AppColors.warningAccent,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(
-          color: AppColors.warningAccent.withValues(alpha: 0.3),
-          width: 1,
-        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.warningAccent.withValues(alpha: 0.2),
+            color: AppColors.warning.withValues(alpha: 0.3),
             offset: const Offset(0, 2),
-            blurRadius: 6,
-            spreadRadius: -1,
+            blurRadius: 8,
+            spreadRadius: 0,
           ),
         ],
       );
 
   /// Error badge
   static BoxDecoration errorBadge({double radius = 12}) => BoxDecoration(
-        color: AppColors.error,
+        color: AppColors.errorAccent,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(
-          color: AppColors.errorAccent.withValues(alpha: 0.3),
-          width: 1,
-        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.errorAccent.withValues(alpha: 0.2),
+            color: AppColors.error.withValues(alpha: 0.3),
             offset: const Offset(0, 2),
-            blurRadius: 6,
-            spreadRadius: -1,
+            blurRadius: 8,
+            spreadRadius: 0,
           ),
         ],
       );
@@ -332,9 +293,9 @@ class ModernDecorations {
         boxShadow: [
           BoxShadow(
             color: AppColors.pressed,
-            offset: const Offset(2, 2),
+            offset: const Offset(0, 1),
             blurRadius: 4,
-            spreadRadius: -1,
+            spreadRadius: 0,
           ),
         ],
       );
@@ -342,8 +303,8 @@ class ModernDecorations {
   /// Focused effect
   static BoxDecoration focused(BoxDecoration base) => base.copyWith(
         border: Border.all(
-          color: AppColors.primaryMain.withValues(alpha: 0.6),
-          width: 2,
+          color: AppColors.accentMain.withValues(alpha: 0.6),
+          width: AppConstants.glassBorderWidthThick,
         ),
         boxShadow: [
           ...base.boxShadow ?? [],
@@ -358,79 +319,52 @@ class ModernDecorations {
 
   // ===== CUSTOM DECORATIONS - кастомные декорации =====
 
-  /// Кастомная неоморфная декорация
-  static BoxDecoration customNeomorphic({
+  /// Кастомная glassmorphism декорация
+  static BoxDecoration customGlass({
     Color? color,
-    double borderRadius = AppConstants.radiusLarge,
-    bool isInset = false,
-    double shadowIntensity = 1.0,
+    double borderRadius = AppConstants.glassRadius,
+    double opacity = 0.1,
+    double blurIntensity = 1.0,
   }) {
-    final baseColor = color ?? AppColors.surfaceMain;
-
-    if (isInset) {
-      return BoxDecoration(
-        color: baseColor,
-        borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color:
-                AppColors.shadowInner.withValues(alpha: 0.15 * shadowIntensity),
-            offset: const Offset(4, 4),
-            blurRadius: 8 * shadowIntensity,
-            spreadRadius: -2,
-          ),
-          BoxShadow(
-            color: AppColors.highlightNeomorphic
-                .withValues(alpha: 0.8 * shadowIntensity),
-            offset: const Offset(-2, -2),
-            blurRadius: 6 * shadowIntensity,
-            spreadRadius: -1,
-          ),
-        ],
-      );
-    }
-
     return BoxDecoration(
-      color: baseColor,
+      color: (color ?? AppColors.glassBackground).withValues(alpha: opacity),
       borderRadius: BorderRadius.circular(borderRadius),
+      border: Border.all(
+        color: AppColors.glassBorder,
+        width: AppConstants.glassBorderWidth,
+      ),
       boxShadow: [
         BoxShadow(
-          color: AppColors.highlightNeomorphic
-              .withValues(alpha: 0.8 * shadowIntensity),
-          offset: Offset(-6 * shadowIntensity, -6 * shadowIntensity),
-          blurRadius: 12 * shadowIntensity,
-          spreadRadius: 0,
-        ),
-        BoxShadow(
-          color:
-              AppColors.shadowMedium.withValues(alpha: 0.3 * shadowIntensity),
-          offset: Offset(6 * shadowIntensity, 6 * shadowIntensity),
-          blurRadius: 12 * shadowIntensity,
+          color: AppColors.glassShadow,
+          offset: const Offset(0, 4),
+          blurRadius: 20 * blurIntensity,
           spreadRadius: 0,
         ),
       ],
     );
   }
 
-  /// Кастомная liquid декорация
-  static BoxDecoration customLiquid({
+  /// Кастомная элегантная декорация
+  static BoxDecoration customElegant({
+    Color? color,
+    double borderRadius = AppConstants.glassRadius,
     Gradient? gradient,
-    double borderRadius = 24,
-    Color? borderColor,
-    double shadowBlur = 12,
+    double shadowIntensity = 1.0,
   }) {
     return BoxDecoration(
-      gradient: gradient ?? AppColors.liquidNeutral,
+      color: gradient == null ? (color ?? AppColors.surfaceMain) : null,
+      gradient: gradient,
       borderRadius: BorderRadius.circular(borderRadius),
-      border: borderColor != null
-          ? Border.all(color: borderColor.withValues(alpha: 0.3), width: 1)
-          : null,
+      border: Border.all(
+        color: AppColors.glassBorder,
+        width: AppConstants.glassBorderWidth,
+      ),
       boxShadow: [
         BoxShadow(
-          color: AppColors.shadowLight,
-          offset: const Offset(0, 4),
-          blurRadius: shadowBlur,
-          spreadRadius: -2,
+          color: AppColors.shadowSubtle,
+          offset: const Offset(0, 2),
+          blurRadius: 8 * shadowIntensity,
+          spreadRadius: 0,
         ),
       ],
     );
@@ -442,21 +376,21 @@ class ModernDecorations {
   static BoxDecoration get glassNavBar => bottomNavigation;
 
   /// Glass базовая декорация
-  static BoxDecoration get glassBase => neomorphicBase;
+  static BoxDecoration get glassBaseDecoration => glassBase;
 
   /// Glass input поле
-  static BoxDecoration get glassInput => liquidInput;
+  static BoxDecoration get glassInput => elegantInput;
 
   /// Glass карточка
-  static BoxDecoration get glassCard => floatingCard;
+  static BoxDecoration get glassCard => elegantCard;
 }
 
 /// Алиас для совместимости с существующим кодом
 typedef GlassDecorations = ModernDecorations;
 
-/// Виджет для создания неоморфного контейнера
-class NeomorphicContainer extends StatelessWidget {
-  const NeomorphicContainer({
+/// Виджет для создания glassmorphism контейнера
+class GlassContainer extends StatelessWidget {
+  const GlassContainer({
     super.key,
     required this.child,
     this.decoration,
@@ -464,9 +398,9 @@ class NeomorphicContainer extends StatelessWidget {
     this.margin,
     this.width,
     this.height,
-    this.isInset = false,
-    this.borderRadius = AppConstants.radiusLarge,
-    this.shadowIntensity = 1.0,
+    this.borderRadius = AppConstants.glassRadius,
+    this.opacity = 0.1,
+    this.blurIntensity = 1.0,
   });
 
   final Widget child;
@@ -475,9 +409,9 @@ class NeomorphicContainer extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final double? width;
   final double? height;
-  final bool isInset;
   final double borderRadius;
-  final double shadowIntensity;
+  final double opacity;
+  final double blurIntensity;
 
   @override
   Widget build(BuildContext context) {
@@ -486,10 +420,10 @@ class NeomorphicContainer extends StatelessWidget {
       height: height,
       margin: margin,
       decoration: decoration ??
-          ModernDecorations.customNeomorphic(
+          ModernDecorations.customGlass(
             borderRadius: borderRadius,
-            isInset: isInset,
-            shadowIntensity: shadowIntensity,
+            opacity: opacity,
+            blurIntensity: blurIntensity,
           ),
       child: Padding(
         padding: padding ?? const EdgeInsets.all(AppConstants.paddingMedium),
@@ -499,9 +433,9 @@ class NeomorphicContainer extends StatelessWidget {
   }
 }
 
-/// Виджет для создания liquid контейнера
-class LiquidContainer extends StatelessWidget {
-  const LiquidContainer({
+/// Виджет для создания элегантного контейнера
+class ElegantContainer extends StatelessWidget {
+  const ElegantContainer({
     super.key,
     required this.child,
     this.gradient,
@@ -509,8 +443,8 @@ class LiquidContainer extends StatelessWidget {
     this.margin,
     this.width,
     this.height,
-    this.borderRadius = 24,
-    this.borderColor,
+    this.borderRadius = AppConstants.glassRadius,
+    this.shadowIntensity = 1.0,
   });
 
   final Widget child;
@@ -520,7 +454,7 @@ class LiquidContainer extends StatelessWidget {
   final double? width;
   final double? height;
   final double borderRadius;
-  final Color? borderColor;
+  final double shadowIntensity;
 
   @override
   Widget build(BuildContext context) {
@@ -528,10 +462,10 @@ class LiquidContainer extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
-      decoration: ModernDecorations.customLiquid(
+      decoration: ModernDecorations.customElegant(
         gradient: gradient,
         borderRadius: borderRadius,
-        borderColor: borderColor,
+        shadowIntensity: shadowIntensity,
       ),
       child: Padding(
         padding: padding ?? const EdgeInsets.all(AppConstants.paddingMedium),

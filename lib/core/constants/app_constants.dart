@@ -40,15 +40,30 @@ class AppConstants {
   static const Duration animationMedium = Duration(milliseconds: 300);
   static const Duration animationSlow = Duration(milliseconds: 500);
 
-  // Glass эффекты
+  // Glassmorphism эффекты
   static const double glassBlur = 20.0;
+  static const double glassBlurLight = 10.0;
+  static const double glassBlurHeavy = 40.0;
   static const double glassOpacity = 0.1;
+  static const double glassOpacityLight = 0.05;
+  static const double glassOpacityHeavy = 0.2;
   static const double glassBorderOpacity = 0.2;
+  static const double glassBorderOpacityLight = 0.1;
+  static const double glassBorderOpacityHeavy = 0.3;
 
   // Тени
   static const double shadowElevationLow = 2.0;
   static const double shadowElevationMedium = 4.0;
   static const double shadowElevationHigh = 8.0;
+  static const double shadowElevationXHigh = 16.0;
+
+  // Glassmorphism специфичные константы
+  static const double glassBorderWidth = 1.0;
+  static const double glassBorderWidthThick = 2.0;
+  static const double glassRadius = 16.0;
+  static const double glassRadiusSmall = 8.0;
+  static const double glassRadiusLarge = 24.0;
+  static const double glassRadiusXLarge = 32.0;
 
   // Высота элементов
   static const double buttonHeight = 48.0;

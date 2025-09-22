@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'features/clients/presentation/pages/clients_page.dart';
@@ -7,6 +8,7 @@ import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/dashboard/presentation/pages/dashboard_page.dart';
 import 'core/theme/modern_decorations.dart';
 import 'core/constants/app_colors.dart';
+import 'core/constants/app_constants.dart';
 
 /// Основная навигация приложения с Bottom Navigation Bar
 class MainNavigation extends StatefulWidget {
@@ -69,42 +71,46 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   Widget _buildBottomNavigationBar() {
-    return Container(
-      decoration: GlassDecorations.glassNavBar,
-      child: ClipRRect(
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          selectedItemColor: AppColors.primaryMain,
-          unselectedItemColor: AppColors.textSecondary,
-          selectedLabelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-          ),
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-          ),
-          items: _navigationItems.asMap().entries.map((entry) {
-            final index = entry.key;
-            final item = entry.value;
-            final isSelected = _currentIndex == index;
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+            sigmaX: AppConstants.glassBlur, sigmaY: AppConstants.glassBlur),
+        child: Container(
+          decoration: GlassDecorations.glassNavBar,
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            selectedItemColor: AppColors.accentMain,
+            unselectedItemColor: AppColors.textSecondary,
+            selectedLabelStyle: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+            items: _navigationItems.asMap().entries.map((entry) {
+              final index = entry.key;
+              final item = entry.value;
+              final isSelected = _currentIndex == index;
 
-            return BottomNavigationBarItem(
-              icon: _buildNavIcon(
-                isSelected ? item.activeIcon : item.icon,
-                isSelected,
-              ),
-              label: item.label,
-            );
-          }).toList(),
+              return BottomNavigationBarItem(
+                icon: _buildNavIcon(
+                  isSelected ? item.activeIcon : item.icon,
+                  isSelected,
+                ),
+                label: item.label,
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
@@ -116,11 +122,11 @@ class _MainNavigationState extends State<MainNavigation> {
       padding: const EdgeInsets.all(8),
       decoration: isSelected
           ? BoxDecoration(
-              gradient: AppColors.liquidPrimary,
-              borderRadius: BorderRadius.circular(12),
+              gradient: AppColors.elegantAccent,
+              borderRadius: BorderRadius.circular(AppConstants.glassRadius),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primaryMain.withValues(alpha: 0.3),
+                  color: AppColors.accentMain.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -130,7 +136,7 @@ class _MainNavigationState extends State<MainNavigation> {
       child: Icon(
         icon,
         size: 24,
-        color: isSelected ? Colors.white : AppColors.textSecondary,
+        color: isSelected ? AppColors.textOnPrimary : AppColors.textSecondary,
       ),
     );
   }

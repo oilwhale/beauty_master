@@ -1,36 +1,40 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 
-/// Стили текста для приложения BeautyMaster
+/// Enterprise-уровень стили текста для приложения BeautyMaster
+/// Стиль: Elegant Minimalism + Professional Typography
 class AppTextStyles {
   AppTextStyles._();
 
-  // Используем системный шрифт пока
+  // Используем системный шрифт для enterprise-уровня
   static const String? _fontFamily = null;
 
-  /// Заголовки
+  /// Заголовки - Enterprise стиль
   static const TextStyle heading1 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 32,
     fontWeight: FontWeight.w700,
-    height: 1.2,
-    letterSpacing: -0.5,
+    height: 1.1,
+    letterSpacing: -0.8,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle heading2 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 28,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     height: 1.2,
-    letterSpacing: -0.3,
+    letterSpacing: -0.6,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle heading3 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 24,
     fontWeight: FontWeight.w600,
-    height: 1.3,
-    letterSpacing: -0.2,
+    height: 1.25,
+    letterSpacing: -0.4,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle heading4 = TextStyle(
@@ -38,28 +42,36 @@ class AppTextStyles {
     fontSize: 20,
     fontWeight: FontWeight.w600,
     height: 1.3,
+    letterSpacing: -0.2,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle heading5 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle heading6 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 16,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     height: 1.4,
+    letterSpacing: 0,
+    color: AppColors.textPrimary,
   );
 
-  /// Основной текст
+  /// Основной текст - Enterprise стиль
   static const TextStyle bodyLarge = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    height: 1.5,
+    height: 1.6,
+    letterSpacing: 0.1,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodyMedium = TextStyle(
@@ -67,6 +79,8 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.5,
+    letterSpacing: 0.1,
+    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodySmall = TextStyle(
@@ -74,6 +88,8 @@ class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w400,
     height: 1.4,
+    letterSpacing: 0.2,
+    color: AppColors.textSecondary,
   );
 
   /// Подписи и вспомогательный текст
